@@ -32,6 +32,7 @@ class GameScreen implements Screen {
 	Array<Rectangle> raindrops;
 	long lastDropTime;
 	int dropsGathered;
+	int speed = 200;
 
 
 	public GameScreen(final Drop gam) {
@@ -95,7 +96,7 @@ class GameScreen implements Screen {
 		Iterator<Rectangle> iter = raindrops.iterator();
 		while (iter.hasNext()){
 			Rectangle raindrop = iter.next();
-			raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
+			raindrop.y -= speed * Gdx.graphics.getDeltaTime();
 			if (raindrop.y + 64 < 0) iter.remove();
 			if(raindrop.overlaps(bucket)){
 				dropsGathered++;
@@ -106,14 +107,20 @@ class GameScreen implements Screen {
 		if(dropsGathered==20){
 			dropImage = new Texture(Gdx.files.internal("img/cat.png"));
 			bucketImage = new Texture(Gdx.files.internal("bucketRed.png"));
+			speed = 300;
 		}
 		if(dropsGathered==30){
 			dropImage = new Texture(Gdx.files.internal("img/owl.png"));
 			bucketImage = new Texture(Gdx.files.internal("img/droplet.png"));
+			speed = 400;
 		}
 		if(dropsGathered==50){
 			dropImage = new Texture(Gdx.files.internal("img/mouse.png"));
 			bucketImage = new Texture(Gdx.files.internal("img/cat.png"));
+			speed = 500;
+		}
+		if(dropsGathered==60) {
+			speed = 800;
 		}
 	}
 	@Override

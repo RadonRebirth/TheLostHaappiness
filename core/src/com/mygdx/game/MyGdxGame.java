@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -20,30 +21,44 @@ import java.util.Iterator;
 
 class GameScreen implements Screen {
 	final Drop game;
-
 	Texture dropImage;
-	Texture bucketImage;
-	Sound meowSound;
-	Music gameMusic;
+	Texture cuteCatImage;
+	Texture AngryCatImage;
+	Texture OwlImage;
+	Texture MouseImage;
+	Texture boxImage;
+	Texture[] animalsDropArray;
 	TextureRegion backgroundTexture;
+
+	Sound pickupSound;
+	Music gameMusic;
+
 	OrthographicCamera camera;
 	SpriteBatch batch;
 	Rectangle bucket;
-	Array<Rectangle> raindrops;
+	Array<AnimDrop> animalsDrops;
 	long lastDropTime;
 	int dropsGathered;
 	int speed = 200;
 
 
-	public GameScreen(final Drop gam) {
-		this.game = gam;
+	public GameScreen(final Drop game) {
+		this.game = game;
 
-		bucketImage = new Texture(Gdx.files.internal("bucket.png"));
 		dropImage = new Texture(Gdx.files.internal("img/droplet.png"));
+		boxImage = new Texture(Gdx.files.internal("bucket.png"));
+		cuteCatImage = new Texture(Gdx.files.internal("img/droplet.png"));
+		AngryCatImage = new Texture(Gdx.files.internal("img/cat.png"));
+		OwlImage = new Texture(Gdx.files.internal("img/owl.png"));
+		MouseImage = new Texture(Gdx.files.internal("img/mouse.png"));
 		backgroundTexture = new TextureRegion(new Texture("background.jpg"), 0, 0, 1920, 1312);
-		meowSound = Gdx.audio.newSound(Gdx.files.internal("drops.wav"));
+
+		animalsDropArray = new Texture[] {cuteCatImage, AngryCatImage,OwlImage,MouseImage};
+
+		pickupSound = Gdx.audio.newSound(Gdx.files.internal("drops.wav"));
 		gameMusic = Gdx.audio.newMusic(Gdx.files.internal("bit.mp3"));
 		gameMusic.setLooping(true);
+
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,1440,720);
 
@@ -55,28 +70,50 @@ class GameScreen implements Screen {
 		bucket.width = 64;
 		bucket.height= 64;
 
-		raindrops = new Array<Rectangle>();
+		animalsDrops = new Array<>();
 		spawnRaindrop();
 	}
 	private void spawnRaindrop(){
 
-		Rectangle raindrop = new Rectangle();
-		raindrop.x = random(0,1440-64);
-		raindrop.y = 720;
-		raindrop.width = 64;
-		raindrop.height = 64;
-		raindrops.add(raindrop);
+		Rectangle animaldrop = new Rectangle();
+		int type = 0;
+		animaldrop.x = random(0,1440-64);
+		if(MathUtils.randomBoolean(0.25f)){
+			type =0;
+		}
+		else if(MathUtils.randomBoolean(0.25f)){
+			type = 1;
+		}
+		else if(MathUtils.randomBoolean(0.25f)){
+			type = 2;
+		}
+		else if(MathUtils.randomBoolean(0.25f)){
+			type = 3;
+		}
+		animaldrop.y = 720;
+		animaldrop.width = 64;
+		animaldrop.height = 64;
+		animalsDrops.add(new AnimDrop(animaldrop,type));
 		lastDropTime = TimeUtils.nanoTime();
+	}
+	class AnimDrop{
+		Rectangle rectangle;
+		int type;
+
+		public AnimDrop(Rectangle rectangle, int type) {
+			this.rectangle = rectangle;
+			this.type = type;
+		}
 	}
 	public void render(float delta){
 		camera.update();
 		game.batch.setProjectionMatrix(camera.combined);
 		game.batch.begin();
 		game.batch.draw(backgroundTexture, 0, 0);
-		game.font.draw(game.batch, "Kittens Collected: " + dropsGathered, 1440/2 - 64, 720);
-		game.batch.draw(bucketImage,bucket.x,bucket.y);
-		for(Rectangle raindrop: raindrops) {
-			game.batch.draw(dropImage, raindrop.x, raindrop.y);
+		game.font.draw(game.batch, "Kittens Collected: " + dropsGathered, 600, 720);
+		game.batch.draw(boxImage,bucket.x,bucket.y);
+		for(AnimDrop animaldrop: animalsDrops) {
+			game.batch.draw(animalsDropArray[animaldrop.type], animaldrop.rectangle.x, animaldrop.rectangle.y);
 		}
 		game.batch.end();
 
@@ -93,42 +130,45 @@ class GameScreen implements Screen {
 
 		if(TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRaindrop();
 
-		Iterator<Rectangle> iter = raindrops.iterator();
+		Iterator<AnimDrop> iter = animalsDrops.iterator();
 		while (iter.hasNext()){
-			Rectangle raindrop = iter.next();
-			raindrop.y -= speed * Gdx.graphics.getDeltaTime();
-			if (raindrop.y + 64 < 0) iter.remove();
-			if(raindrop.overlaps(bucket)){
+
+			AnimDrop animDrop = iter.next();
+			animDrop.rectangle.y -= speed * Gdx.graphics.getDeltaTime();
+			if (animDrop.rectangle.y + 64 < 0) iter.remove();
+			if(animDrop.rectangle.overlaps(bucket)){
 				dropsGathered++;
-				meowSound.play();
+				pickupSound.play();
 				iter.remove();
 			}
 		}
-		if(dropsGathered==20){
-			dropImage = new Texture(Gdx.files.internal("img/cat.png"));
-			bucketImage = new Texture(Gdx.files.internal("bucketRed.png"));
-			speed = 300;
-		}
-		if(dropsGathered==30){
-			dropImage = new Texture(Gdx.files.internal("img/owl.png"));
-			bucketImage = new Texture(Gdx.files.internal("img/droplet.png"));
-			speed = 400;
-		}
-		if(dropsGathered==50){
-			dropImage = new Texture(Gdx.files.internal("img/mouse.png"));
-			bucketImage = new Texture(Gdx.files.internal("img/cat.png"));
-			speed = 500;
-		}
-		if(dropsGathered==60) {
-			speed = 800;
+		switch (dropsGathered){
+			case 20:
+				dropImage = new Texture(Gdx.files.internal("img/cat.png"));
+				boxImage = new Texture(Gdx.files.internal("bucketRed.png"));
+				speed = 300;
+				break;
+			case 30:
+				dropImage = new Texture(Gdx.files.internal("img/owl.png"));
+				boxImage = new Texture(Gdx.files.internal("img/droplet.png"));
+				speed = 400;
+				break;
+			case 50:
+				dropImage = new Texture(Gdx.files.internal("img/mouse.png"));
+				boxImage = new Texture(Gdx.files.internal("img/cat.png"));
+				speed = 500;
+				break;
+			case 60:
+				speed = 800;
+				break;
 		}
 	}
 	@Override
 	public void dispose() {
 		dropImage.dispose();
-		bucketImage.dispose();
+		boxImage.dispose();
 		batch.dispose();
-		meowSound.dispose();
+		pickupSound.dispose();
 		gameMusic.dispose();
 	}
 

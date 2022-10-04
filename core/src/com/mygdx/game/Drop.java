@@ -15,12 +15,11 @@ public class Drop extends Game {
     public void create() {
         batch = new SpriteBatch();
         font = new BitmapFont();
-
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("top.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("data/top.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size=30;
+        parameter.size=13;
         font = generator.generateFont(parameter);
-        font.setColor(Color.BLACK);
+        font.setColor(Color.WHITE);
         this.setScreen(new MainMenuScreen(this));
     }
 
@@ -32,5 +31,4 @@ public class Drop extends Game {
         batch.dispose();
         font.dispose();
     }
-
 }

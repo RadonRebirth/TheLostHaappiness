@@ -28,17 +28,9 @@ class GameScreen implements Screen {
 	Texture[] animalsDropArray;
 	private OrthogonalTiledMapRenderer renderer;
 
-	Sound pickupSound;
-	Music gameMusic;
-
 	OrthographicCamera camera;
 	SpriteBatch batch;
 	Rectangle bucket;
-	Array<AnimDrop> animalsDrops;
-	long lastDropTime;
-	int dropsGathered;
-	int speed = 200;
-
 
 	public GameScreen(final Drop game) {
 		this.game = game;
@@ -54,10 +46,6 @@ class GameScreen implements Screen {
 
 		animalsDropArray = new Texture[] {cuteCatImage, AngryCatImage,OwlImage,MouseImage};
 
-		//pickupSound = Gdx.audio.newSound(Gdx.files.internal("drops.wav"));
-		//gameMusic = Gdx.audio.newMusic(Gdx.files.internal("bit.mp3"));
-		//gameMusic.setLooping(true);
-
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,1440/3,736/3);
 
@@ -68,124 +56,56 @@ class GameScreen implements Screen {
 		bucket.y = 20;
 		bucket.width = 17;
 		bucket.height= 24;
-
-		animalsDrops = new Array<>();
-		//spawnRaindrop();
-	}/*
-	private void spawnRaindrop(){
-		Rectangle animaldrop = new Rectangle();
-		int type = 0;
-		animaldrop.x = random(0,1440-64);
-		if(MathUtils.randomBoolean(0.25f)){
-			type =0;
-		}
-		else if(MathUtils.randomBoolean(0.25f)){
-			type = 1;
-		}
-		else if(MathUtils.randomBoolean(0.25f)){
-			type = 2;
-		}
-		else if(MathUtils.randomBoolean(0.25f)){
-			type = 3;
-		}
-		animaldrop.y = 1440;
-		animaldrop.width = 64;
-		animaldrop.height = 64;
-		animalsDrops.add(new AnimDrop(animaldrop,type));
-		lastDropTime = TimeUtils.nanoTime();
 	}
-	*/
-	class AnimDrop{
-		Rectangle rectangle;
-		int type;
 
-		public AnimDrop(Rectangle rectangle, int type) {
-			this.rectangle = rectangle;
-			this.type = type;
-		}
-	}
 	public void render(float delta){
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		camera.update();
 		camera.position.x = bucket.x;
+		camera.update();
 		camera.position.y = bucket.y;
+		camera.update();
 		renderer.setView(camera);
+		camera.update();
 		renderer.render();
-
+		camera.update();
 		game.batch.setProjectionMatrix(camera.combined);
+		camera.update();
 		game.batch.begin();
-		//game.batch.draw(backgroundTexture, 0, 0);
-		//game.font.draw(game.batch, "Kittens Collected: " + dropsGathered, camera.position.x-140, camera.position.y+90);
+		camera.update();
 		game.batch.draw(boxImage,bucket.x,bucket.y);
-		for(AnimDrop animaldrop: animalsDrops) {
-			game.batch.draw(animalsDropArray[animaldrop.type], animaldrop.rectangle.x, animaldrop.rectangle.y);
-		}
+		camera.update();
 		game.batch.end();
-/* временный
-		if(Gdx.input.isTouched()){
-			Vector3 touchPos = new Vector3();
-			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			camera.unproject(touchPos);
-			bucket.x = (int) (touchPos.x - 64/2);
-		}
-
- */
+		camera.update();
 		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-			bucket.x -= 200 * Gdx.graphics.getDeltaTime();
+			bucket.x -= 150 * Gdx.graphics.getDeltaTime();
 		}
+		camera.update();
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-			bucket.x += 200 * Gdx.graphics.getDeltaTime();
+			bucket.x += 150 * Gdx.graphics.getDeltaTime();
 		}
+		camera.update();
 		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-			bucket.y += 200 * Gdx.graphics.getDeltaTime();
+			bucket.y += 150 * Gdx.graphics.getDeltaTime();
 		}
+		camera.update();
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-			bucket.y -= 200 * Gdx.graphics.getDeltaTime();
+			bucket.y -= 150 * Gdx.graphics.getDeltaTime();
 		}
+		camera.update();
 		if(bucket.x < 0) bucket.x = 0;
 		if(bucket.y < 0) bucket.y = 0;
 		if(bucket.x > 1440 - 24) bucket.x = 1440 - 24;
 		if(bucket.y > 720 - 24) bucket.y = 720 - 24;
-		//if(TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRaindrop();
-
-		Iterator<AnimDrop> iter = animalsDrops.iterator();
-		while (iter.hasNext()){
-
-			AnimDrop animDrop = iter.next();
-			animDrop.rectangle.y -= speed * Gdx.graphics.getDeltaTime();
-			if (animDrop.rectangle.y + 64 < 0) iter.remove();
-			if(animDrop.rectangle.overlaps(bucket)){
-				dropsGathered++;
-				iter.remove();
-			}
-	}
-		switch (dropsGathered){
-			case 20:
-				boxImage = new Texture(Gdx.files.internal("bucketRed.png"));
-				speed = 300;
-				break;
-			case 30:
-				boxImage = new Texture(Gdx.files.internal("img/droplet.png"));
-				speed = 400;
-				break;
-			case 50:
-				boxImage = new Texture(Gdx.files.internal("img/cat.png"));
-				speed = 500;
-				break;
-			case 60:
-				speed = 800;
-				break;
-		}
+		camera.update();
 	}
 	@Override
 	public void dispose() {
 		dropImage.dispose();
 		boxImage.dispose();
 		batch.dispose();
-		//pickupSound.dispose();
-		//gameMusic.dispose();
 		renderer.dispose();
 	}
 

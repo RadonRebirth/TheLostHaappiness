@@ -3,19 +3,17 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
-
-import java.util.Iterator;
 
 class GameScreen implements Screen {
 	final Drop game;
@@ -32,6 +30,14 @@ class GameScreen implements Screen {
 	SpriteBatch batch;
 	Rectangle bucket;
 
+	TiledMap map = new TmxMapLoader().load("map.tmx");
+	TiledMapTileLayer collisionLayer = (TiledMapTileLayer)map.getLayers().get("CollisionLayer");
+	MapObjects collisionObjects = collisionLayer.getObjects();
+	int tileWidth = 32;
+	int tileHeight = 32;
+
+	int speed = 150;
+
 	public GameScreen(final Drop game) {
 		this.game = game;
 
@@ -41,10 +47,15 @@ class GameScreen implements Screen {
 		AngryCatImage = new Texture(Gdx.files.internal("img/cat.png"));
 		OwlImage = new Texture(Gdx.files.internal("img/owl.png"));
 		MouseImage = new Texture(Gdx.files.internal("img/mouse.png"));
-		TiledMap map = new TmxMapLoader().load("map.tmx");
+
 		renderer = new OrthogonalTiledMapRenderer(map, 1 / 1f);
 
+
+
 		animalsDropArray = new Texture[] {cuteCatImage, AngryCatImage,OwlImage,MouseImage};
+
+		int tileWidth = 16;
+		int tileHeight = 16;
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,1440/3,736/3);
@@ -72,22 +83,38 @@ class GameScreen implements Screen {
 		game.batch.draw(boxImage,bucket.x,bucket.y);
 		game.batch.end();
 
-		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-			bucket.x -= 150 * Gdx.graphics.getDeltaTime();
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-			bucket.x += 150 * Gdx.graphics.getDeltaTime();
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-			bucket.y += 150 * Gdx.graphics.getDeltaTime();
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-			bucket.y -= 150 * Gdx.graphics.getDeltaTime();
-		}
-
 		if(bucket.x < 0) bucket.x = 0;
 		if(bucket.y < 0) bucket.y = 0;
-		if(bucket.x > 1440 - 24) bucket.x = 1440 - 24;
+
+		for (int i = 0; i < collisionObjects.getCount(); i++) {
+			RectangleMapObject obj = (RectangleMapObject) collisionObjects.get(i);
+			Rectangle rect = obj.getRectangle();
+
+			rect.set(bucket.x, bucket.y, 17,24);
+
+			Rectangle rectobject = obj.getRectangle();
+			rectobject.x /= tileWidth;
+			rectobject.y /= tileHeight;
+			rectobject.width /= tileWidth;
+			rectobject.height /= tileHeight;
+			if(bucket.overlaps(rectobject)) {
+				speed = 0;
+			}
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+			bucket.x -= speed * Gdx.graphics.getDeltaTime();
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+			bucket.x += speed * Gdx.graphics.getDeltaTime();
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+			bucket.y += speed * Gdx.graphics.getDeltaTime();
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+			bucket.y -= speed * Gdx.graphics.getDeltaTime();
+		}
+
+		if(bucket.x > 1440 - 17) bucket.x = 1440 - 17;
 		if(bucket.y > 720 - 24) bucket.y = 720 - 24;
 	}
 	@Override

@@ -62,44 +62,33 @@ class GameScreen implements Screen {
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		camera.update();
 		camera.position.x = bucket.x;
-		camera.update();
 		camera.position.y = bucket.y;
-		camera.update();
+		camera.update(); // Здесь точно нужно
 		renderer.setView(camera);
-		camera.update();
 		renderer.render();
-		camera.update();
 		game.batch.setProjectionMatrix(camera.combined);
-		camera.update();
 		game.batch.begin();
-		camera.update();
 		game.batch.draw(boxImage,bucket.x,bucket.y);
-		camera.update();
 		game.batch.end();
-		camera.update();
+
 		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
 			bucket.x -= 150 * Gdx.graphics.getDeltaTime();
 		}
-		camera.update();
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
 			bucket.x += 150 * Gdx.graphics.getDeltaTime();
 		}
-		camera.update();
 		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
 			bucket.y += 150 * Gdx.graphics.getDeltaTime();
 		}
-		camera.update();
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
 			bucket.y -= 150 * Gdx.graphics.getDeltaTime();
 		}
-		camera.update();
+
 		if(bucket.x < 0) bucket.x = 0;
 		if(bucket.y < 0) bucket.y = 0;
 		if(bucket.x > 1440 - 24) bucket.x = 1440 - 24;
 		if(bucket.y > 720 - 24) bucket.y = 720 - 24;
-		camera.update();
 	}
 	@Override
 	public void dispose() {

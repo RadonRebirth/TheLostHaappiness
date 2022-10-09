@@ -8,7 +8,7 @@ public class DesktopLauncher {
 	public static void main (String[] args) {
 		Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
 		cfg.setTitle("Catch kittens");
-		cfg.setWindowedMode(1440,736);
+		cfg.setWindowedMode(1440,720);
 		new Lwjgl3Application(new Drop(), cfg);
 	}
 }

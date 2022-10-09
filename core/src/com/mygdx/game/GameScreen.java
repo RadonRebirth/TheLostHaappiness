@@ -7,124 +7,126 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 class GameScreen implements Screen {
+	static class Player {
+		static float WIDTH;
+		static float HEIGHT;
+		static float MAX_VELOCITY = 10f;
+		static float JUMP_VELOCITY = 40f;
+		static float DAMPING = 0.87f;
+
+		enum State {
+			Standing, Walking
+		}
+
+		final Vector2 position = new Vector2();
+		final Vector2 velocity = new Vector2();
+		State state = State.Walking;
+		float stateTime = 0;
+		boolean facesRight = true;
+		boolean grounded = false;
+	}
+
+
 	final Drop game;
-	Texture dropImage;
-	Texture cuteCatImage;
-	Texture AngryCatImage;
-	Texture OwlImage;
-	Texture MouseImage;
-	Texture boxImage;
-	Texture[] animalsDropArray;
+	Texture PlayerImg;
 	private OrthogonalTiledMapRenderer renderer;
 
 	OrthographicCamera camera;
 	SpriteBatch batch;
-	Rectangle bucket;
+	Rectangle Player;
+
+	TiledMapTileLayer.Cell cell;
 
 	TiledMap map = new TmxMapLoader().load("map.tmx");
-	TiledMapTileLayer collisionLayer = (TiledMapTileLayer)map.getLayers().get("CollisionLayer");
-	MapObjects collisionObjects = collisionLayer.getObjects();
+	TiledMapTileLayer collisionLayer = (TiledMapTileLayer)map.getLayers().get("1");
 	int tileWidth = 32;
 	int tileHeight = 32;
 
 	int speed = 150;
+	boolean blocked;
 
 	public GameScreen(final Drop game) {
 		this.game = game;
 
-		dropImage = new Texture(Gdx.files.internal("img/droplet.png"));
-		boxImage = new Texture(Gdx.files.internal("img/player.png"));
-		cuteCatImage = new Texture(Gdx.files.internal("img/droplet.png"));
-		AngryCatImage = new Texture(Gdx.files.internal("img/cat.png"));
-		OwlImage = new Texture(Gdx.files.internal("img/owl.png"));
-		MouseImage = new Texture(Gdx.files.internal("img/mouse.png"));
-
-		renderer = new OrthogonalTiledMapRenderer(map, 1 / 1f);
-
-
-
-		animalsDropArray = new Texture[] {cuteCatImage, AngryCatImage,OwlImage,MouseImage};
-
-		int tileWidth = 16;
-		int tileHeight = 16;
+		PlayerImg = new Texture(Gdx.files.internal("img/player.png"));
+		renderer = new OrthogonalTiledMapRenderer(map);
 
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false,1440/3,736/3);
+		camera.setToOrtho(false,1440/3,720/3);
 
 		batch = new SpriteBatch();
 
-		bucket = new Rectangle();
-		bucket.x = 736/2 - 64/2;
-		bucket.y = 20;
-		bucket.width = 17;
-		bucket.height= 24;
+		Player = new Rectangle();
+		Player.x = 736/2 - 64/2;
+		Player.y = 20;
+		Player.width = 32;
+		Player.height= 32;
 	}
 
 	public void render(float delta){
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		camera.position.x = bucket.x;
-		camera.position.y = bucket.y;
+		camera.position.x = Player.x;
+		camera.position.y = Player.y;
 		camera.update(); // Здесь точно нужно
 		renderer.setView(camera);
 		renderer.render();
 		game.batch.setProjectionMatrix(camera.combined);
 		game.batch.begin();
-		game.batch.draw(boxImage,bucket.x,bucket.y);
+		game.batch.draw(PlayerImg,Player.x,Player.y);
 		game.batch.end();
 
-		if(bucket.x < 0) bucket.x = 0;
-		if(bucket.y < 0) bucket.y = 0;
-
+		if(Player.x < 0) Player.x = 0;
+		if(Player.y < 0) Player.y = 0;
+/*
 		for (int i = 0; i < collisionObjects.getCount(); i++) {
 			RectangleMapObject obj = (RectangleMapObject) collisionObjects.get(i);
 			Rectangle rect = obj.getRectangle();
 
-			rect.set(bucket.x, bucket.y, 17,24);
+			rect.set(Player.x, Player.y, Player.width,Player.height);
 
 			Rectangle rectobject = obj.getRectangle();
 			rectobject.x /= tileWidth;
 			rectobject.y /= tileHeight;
 			rectobject.width /= tileWidth;
 			rectobject.height /= tileHeight;
-			if(bucket.overlaps(rectobject)) {
-				speed = 0;
+			if(Player.overlaps(rectobject)) {
+				Gdx.app.exit();
 			}
 		}
+
+ */
 		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-			bucket.x -= speed * Gdx.graphics.getDeltaTime();
+			Player.x -= speed * Gdx.graphics.getDeltaTime();
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-			bucket.x += speed * Gdx.graphics.getDeltaTime();
+			Player.x += speed * Gdx.graphics.getDeltaTime();
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-			bucket.y += speed * Gdx.graphics.getDeltaTime();
+			Player.y += speed * Gdx.graphics.getDeltaTime();
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-			bucket.y -= speed * Gdx.graphics.getDeltaTime();
+			Player.y -= speed * Gdx.graphics.getDeltaTime();
 		}
 
-		if(bucket.x > 1440 - 17) bucket.x = 1440 - 17;
-		if(bucket.y > 720 - 24) bucket.y = 720 - 24;
+		if(Player.x > 1440 - 17) Player.x = 1440 - 17;
+		if(Player.y > 720 - 24) Player.y = 720 - 24;
 	}
 	@Override
 	public void dispose() {
-		dropImage.dispose();
-		boxImage.dispose();
+		PlayerImg.dispose();
 		batch.dispose();
 		renderer.dispose();
 	}
-
 	@Override
 	public void show() {
 		//gameMusic.play();

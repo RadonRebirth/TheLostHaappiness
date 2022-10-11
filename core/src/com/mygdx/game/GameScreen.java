@@ -33,9 +33,7 @@ class GameScreen implements Screen {
 	}
 	@Override
 	public void dispose() {
-		map.dispose();
 		renderer.dispose();
-		player.getTexture().dispose();
 	}
 	@Override
 	public void show() {
@@ -43,15 +41,15 @@ class GameScreen implements Screen {
 		map = loader.load("map.tmx");
 		renderer = new OrthogonalTiledMapRenderer(map);
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false,1440/3,720/3);
-		player = new Player(new Sprite(new Texture("img/player.png")), (TiledMapTileLayer) map.getLayers().get(1));
+		camera.setToOrtho(false,1280/2,720/2);
+		player = new Player(new Sprite(new Texture("img/player.png")), (TiledMapTileLayer) map.getLayers().get("collisionLayer"));
 		player.setPosition(40, 40);
 		Gdx.input.setInputProcessor(player);
 		}
 	@Override
 	public void resize(int width, int height) {
-		camera.viewportWidth = width/3;
-		camera.viewportHeight = height/3;
+		camera.viewportWidth = width/2;
+		camera.viewportHeight = height/2;
 		camera.update();
 	}
 	@Override

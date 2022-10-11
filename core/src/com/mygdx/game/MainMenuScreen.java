@@ -7,11 +7,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class MainMenuScreen implements Screen {
-    final Drop game;
+    final MainGame game;
     TextureRegion background;
     OrthographicCamera camera;
 
-    public MainMenuScreen(final Drop gam) {
+    public MainMenuScreen(final MainGame gam) {
         game = gam;
         background = new TextureRegion(new Texture("backgroundgame.jpg"), 0, 0, 1440, 720);
         camera = new OrthographicCamera();
@@ -31,7 +31,7 @@ public class MainMenuScreen implements Screen {
         game.batch.end();
 
         if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new GameScreen());
             dispose();
         }
     }

@@ -12,27 +12,10 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 class GameScreen implements Screen {
-	final Drop game;
 	private Player player;
 	private OrthogonalTiledMapRenderer renderer;
 	OrthographicCamera camera;
 	private TiledMap map;
-
-
-
-	int speed = 150;
-
-	public GameScreen(final Drop game) {
-		this.game = game;
-		TmxMapLoader loader = new TmxMapLoader();
-		map = loader.load("map.tmx");
-		renderer = new OrthogonalTiledMapRenderer(map);
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false,1440/3,720/3);
-		player = new Player(new Sprite(new Texture("img/player.png")), (TiledMapTileLayer) map.getLayers().get(1));
-		player.setPosition(40, 40);
-		Gdx.input.setInputProcessor(player);
-	}
 
 	public void render(float delta){
 		Gdx.gl.glClearColor(0,0,0,1);
@@ -50,11 +33,20 @@ class GameScreen implements Screen {
 	}
 	@Override
 	public void dispose() {
+		map.dispose();
 		renderer.dispose();
+		player.getTexture().dispose();
 	}
 	@Override
 	public void show() {
-		//gameMusic.play();
+		TmxMapLoader loader = new TmxMapLoader();
+		map = loader.load("map.tmx");
+		renderer = new OrthogonalTiledMapRenderer(map);
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false,1440/3,720/3);
+		player = new Player(new Sprite(new Texture("img/player.png")), (TiledMapTileLayer) map.getLayers().get(1));
+		player.setPosition(40, 40);
+		Gdx.input.setInputProcessor(player);
 		}
 	@Override
 	public void resize(int width, int height) {

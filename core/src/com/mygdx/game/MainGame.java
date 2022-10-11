@@ -1,13 +1,12 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
-public class Drop extends Game {
+public class MainGame extends com.badlogic.gdx.Game {
 
     SpriteBatch batch;
     BitmapFont font;
@@ -20,7 +19,7 @@ public class Drop extends Game {
         parameter.size=12;
         font = generator.generateFont(parameter);
         font.setColor(Color.WHITE);
-        this.setScreen(new GameScreen(this));
+        setScreen(new GameScreen());
     }
 
     public void render() {

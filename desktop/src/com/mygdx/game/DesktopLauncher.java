@@ -9,6 +9,6 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
 		cfg.setTitle("Catch kittens");
 		cfg.setWindowedMode(1440,720);
-		new Lwjgl3Application(new Drop(), cfg);
+		new Lwjgl3Application(new MainGame(), cfg);
 	}
 }

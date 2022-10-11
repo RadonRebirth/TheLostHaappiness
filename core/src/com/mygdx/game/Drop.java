@@ -20,7 +20,7 @@ public class Drop extends Game {
         parameter.size=12;
         font = generator.generateFont(parameter);
         font.setColor(Color.WHITE);
-        this.setScreen(new MainMenuScreen(this));
+        this.setScreen(new GameScreen(this));
     }
 
     public void render() {

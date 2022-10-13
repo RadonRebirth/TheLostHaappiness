@@ -5,17 +5,23 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Matrix4;
 
 class GameScreen implements Screen {
 	private Player player;
 	private OrthogonalTiledMapRenderer renderer;
 	OrthographicCamera camera;
 	private TiledMap map;
+
+	Matrix4 normalProjection;
+ 	Batch batch;
 
 	float playerX;
 	float playerY;
@@ -26,14 +32,15 @@ class GameScreen implements Screen {
 
 		playerX = player.getX();
 		playerY = player.getY();
+
 		camera.position.set(player.getX() + player.getWidth() / 2, player.getY() + player.getHeight() / 2, 0);
 		camera.update();
 		renderer.setView(camera);
 		renderer.render();
 
-		renderer.getBatch().begin();
-		player.draw(renderer.getBatch());
-		renderer.getBatch().end();
+		batch.begin();
+		player.draw(batch);
+		batch.end();
 	}
 	@Override
 	public void dispose() {
@@ -43,11 +50,18 @@ class GameScreen implements Screen {
 	public void show() {
 		TmxMapLoader loader = new TmxMapLoader();
 		map = loader.load("map.tmx");
+
 		renderer = new OrthogonalTiledMapRenderer(map);
+		normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
+		batch = renderer.getBatch();
+		batch.setProjectionMatrix(normalProjection);
+
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,1280/2,720/2);
+
 		player = new Player(new Sprite(new Texture("img/player.png")), (TiledMapTileLayer) map.getLayers().get("collisionLayer"));
 		player.setPosition(320, 440);
+
 		Gdx.input.setInputProcessor(player);
 		}
 	@Override

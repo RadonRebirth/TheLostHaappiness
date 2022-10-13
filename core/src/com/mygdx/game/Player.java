@@ -21,7 +21,6 @@ public class Player extends Sprite implements InputProcessor {
     boolean isButtonS;
     boolean isButtonA;
     boolean isButtonD;
-    boolean yPriority;
 
     public Player(Sprite sprite, TiledMapTileLayer collisionLayer) {
         super(sprite);

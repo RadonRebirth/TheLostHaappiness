@@ -20,7 +20,7 @@ public class MainGame extends Game {
         font = new BitmapFont();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("data/top.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size=12;
+        parameter.size = 12;
         font = generator.generateFont(parameter);
         font.setColor(Color.WHITE);
         setScreen(new GameScreen());

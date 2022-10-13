@@ -7,7 +7,7 @@
   </properties>
  </tile>
  <tile id="7">
-   <properties>
+   <properties>\
     <property name="blocked" value=""/>
    </properties>
   </tile>

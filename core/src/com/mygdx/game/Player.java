@@ -15,6 +15,8 @@ public class Player extends Sprite implements InputProcessor {
     private String blockedKey = "blocked";
     private int targetX;
     private int targetY;
+    boolean collideX = false, collideY = false;
+    boolean wasCollideX = false, wasCollideY = false;
 
     public Player(Sprite sprite, TiledMapTileLayer collisionLayer) {
         super(sprite);
@@ -32,8 +34,6 @@ public class Player extends Sprite implements InputProcessor {
         float oldY = getY();
         float tileWidth = collisionLayer.getTileWidth(), tileHeight = collisionLayer.getTileHeight();
 
-        boolean collideX = false, collideY = false;
-
         // move on X
         setX(getX() + velocity.x * delta);
         if (velocity.x < 0) { // left
@@ -45,8 +45,10 @@ public class Player extends Sprite implements InputProcessor {
         if (collideX) {
             setX(oldX);
             velocity.x = 0;
+            wasCollideX = true;
+        }else {
+            wasCollideX = false;
         }
-
         // move on Y
         setY(getY() + velocity.y * delta);
 
@@ -60,6 +62,9 @@ public class Player extends Sprite implements InputProcessor {
         if (collideY) {
             setY(oldY);
             velocity.y = 0;
+            wasCollideY = true;
+        }else {
+            wasCollideY = false;
         }
     }
     private boolean isCellBlocked(float x, float y) {
@@ -141,12 +146,24 @@ public class Player extends Sprite implements InputProcessor {
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Input.Keys.W:
+                if (!wasCollideY){
+                    velocity.y -= speed;
+                }
+                break;
             case Input.Keys.S:
-                velocity.y = 0;
+                if(!wasCollideY) {
+                    velocity.y += speed;
+                }
                 break;
             case Input.Keys.A:
+                if(!wasCollideX) {
+                    velocity.x += speed;
+                }
+                break;
             case Input.Keys.D:
-                velocity.x = 0;
+                if(!wasCollideX) {
+                    velocity.x -= speed;
+                }
                 break;
 
         }

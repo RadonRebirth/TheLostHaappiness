@@ -17,6 +17,11 @@ public class Player extends Sprite implements InputProcessor {
     private int targetY;
     boolean collideX = false, collideY = false;
     boolean wasCollideX = false, wasCollideY = false;
+    boolean isButtonW;
+    boolean isButtonS;
+    boolean isButtonA;
+    boolean isButtonD;
+    boolean yPriority;
 
     public Player(Sprite sprite, TiledMapTileLayer collisionLayer) {
         super(sprite);
@@ -146,26 +151,29 @@ public class Player extends Sprite implements InputProcessor {
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Input.Keys.W:
+                isButtonW = false;
                 if (!wasCollideY){
                     velocity.y -= speed;
                 }
                 break;
             case Input.Keys.S:
+                isButtonS = false;
                 if(!wasCollideY) {
                     velocity.y += speed;
                 }
                 break;
             case Input.Keys.A:
+                isButtonA = false;
                 if(!wasCollideX) {
                     velocity.x += speed;
                 }
                 break;
             case Input.Keys.D:
+                isButtonD = false;
                 if(!wasCollideX) {
                     velocity.x -= speed;
                 }
                 break;
-
         }
         return true;
     }

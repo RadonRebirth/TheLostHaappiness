@@ -6,30 +6,26 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Matrix4;
 
 class GameScreen implements Screen {
 	private Player player;
 	private OrthogonalTiledMapRenderer renderer;
 	OrthographicCamera camera;
 	private TiledMap map;
-	Matrix4 normalProjection;
-	SpriteBatch batch;
+
+	float playerX;
+	float playerY;
 
 	public void render(float delta){
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		batch = new SpriteBatch();
-		Matrix4 normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
-
-		batch.setProjectionMatrix(normalProjection);
-
+		playerX = player.getX();
+		playerY = player.getY();
 		camera.position.set(player.getX() + player.getWidth() / 2, player.getY() + player.getHeight() / 2, 0);
 		camera.update();
 		renderer.setView(camera);

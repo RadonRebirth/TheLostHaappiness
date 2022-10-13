@@ -43,13 +43,11 @@ class GameScreen implements Screen {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,1280/2,720/2);
 		player = new Player(new Sprite(new Texture("img/player.png")), (TiledMapTileLayer) map.getLayers().get("collisionLayer"));
-		player.setPosition(40, 40);
+		player.setPosition(320, 440);
 		Gdx.input.setInputProcessor(player);
 		}
 	@Override
 	public void resize(int width, int height) {
-		camera.viewportWidth = width/2;
-		camera.viewportHeight = height/2;
 		camera.update();
 	}
 	@Override

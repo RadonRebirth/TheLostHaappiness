@@ -17,11 +17,8 @@ public class Player extends Sprite implements InputProcessor {
     private int targetY;
     boolean collideX = false, collideY = false;
     boolean wasCollideX = false, wasCollideY = false;
-    boolean isButtonW;
-    boolean isButtonS;
-    boolean isButtonA;
-    boolean isButtonD;
-    boolean yPriority;
+    boolean wasCollideLeft = false, wasCollideRight = false;
+    boolean wasCollideTop = false, wasCollideBottom = false;
 
     public Player(Sprite sprite, TiledMapTileLayer collisionLayer) {
         super(sprite);
@@ -43,8 +40,10 @@ public class Player extends Sprite implements InputProcessor {
         setX(getX() + velocity.x * delta);
         if (velocity.x < 0) { // left
             collideX = collidesLeft();
+            wasCollideLeft = collideX;
         } else if (velocity.x > 0) { //right
             collideX = collidesRight();
+            wasCollideRight = collideX;
         }
 
         if (collideX) {
@@ -59,16 +58,17 @@ public class Player extends Sprite implements InputProcessor {
 
         if (velocity.y < 0) { // going down
             collideY = collidesBottom();
-
+            wasCollideBottom = collideY;
         } else if (velocity.y > 0) { // going up
             collideY = collidesTop();
+            wasCollideTop = collideY;
         }
 
         if (collideY) {
             setY(oldY);
             velocity.y = 0;
             wasCollideY = true;
-        }else {
+        } else {
             wasCollideY = false;
         }
     }
@@ -151,28 +151,28 @@ public class Player extends Sprite implements InputProcessor {
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Input.Keys.W:
-                isButtonW = false;
-                if (!wasCollideY){
+                if (!wasCollideTop){
                     velocity.y -= speed;
                 }
+                wasCollideTop = false;
                 break;
             case Input.Keys.S:
-                isButtonS = false;
-                if(!wasCollideY) {
+                if(!wasCollideBottom) {
                     velocity.y += speed;
                 }
+                wasCollideBottom = false;
                 break;
             case Input.Keys.A:
-                isButtonA = false;
-                if(!wasCollideX) {
+                if(!wasCollideLeft) {
                     velocity.x += speed;
                 }
+                wasCollideLeft = false;
                 break;
             case Input.Keys.D:
-                isButtonD = false;
-                if(!wasCollideX) {
+                if(!wasCollideRight) {
                     velocity.x -= speed;
                 }
+                wasCollideRight = false;
                 break;
         }
         return true;

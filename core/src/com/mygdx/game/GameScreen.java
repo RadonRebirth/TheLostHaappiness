@@ -26,7 +26,7 @@ class GameScreen implements Screen {
 
 		playerX = player.getX();
 		playerY = player.getY();
-		camera.position.set(player.getX() + player.getWidth() / 2, player.getY() + player.getHeight() / 2, 0);
+		camera.position.set(player.getX(), player.getY(), 0);
 		camera.update();
 		renderer.setView(camera);
 		renderer.render();
@@ -45,7 +45,7 @@ class GameScreen implements Screen {
 		map = loader.load("map.tmx");
 		renderer = new OrthogonalTiledMapRenderer(map);
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false,1280/2,720/2);
+		camera.setToOrtho( false, Gdx.graphics.getWidth()/2,  Gdx.graphics.getHeight()/2);
 		player = new Player(new Sprite(new Texture("img/player.png")), (TiledMapTileLayer) map.getLayers().get("collisionLayer"));
 		player.setPosition(320, 440);
 		Gdx.input.setInputProcessor(player);

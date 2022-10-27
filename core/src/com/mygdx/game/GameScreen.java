@@ -10,12 +10,14 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector3;
 
 class GameScreen implements Screen {
 	private Player player;
 	private OrthogonalTiledMapRenderer renderer;
 	OrthographicCamera camera;
 	private TiledMap map;
+	Vector3 touchPos;
 
 	float playerX;
 	float playerY;
@@ -23,6 +25,8 @@ class GameScreen implements Screen {
 	public void render(float delta){
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
 
 		playerX = player.getX();
 		playerY = player.getY();
@@ -32,6 +36,19 @@ class GameScreen implements Screen {
 		renderer.render();
 
 		renderer.getBatch().begin();
+		if (Gdx.input.isTouched()) {
+			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+			camera.unproject(touchPos);
+			if (touchPos.x > player.getX()) {
+				player.velocity.x = 150;
+			} else {
+				player.velocity.x = -150;
+			}
+		}
+		else {
+			player.velocity.x = 0;
+		}
+
 		player.draw(renderer.getBatch());
 		renderer.getBatch().end();
 	}
@@ -41,6 +58,7 @@ class GameScreen implements Screen {
 	}
 	@Override
 	public void show() {
+		touchPos = new Vector3();
 		TmxMapLoader loader = new TmxMapLoader();
 		map = loader.load("map.tmx");
 		renderer = new OrthogonalTiledMapRenderer(map);

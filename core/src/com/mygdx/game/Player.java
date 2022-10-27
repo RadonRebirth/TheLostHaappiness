@@ -9,8 +9,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 
 public class Player extends Sprite implements InputProcessor {
-    private Vector2 velocity = new Vector2();
-    private float speed = 150;
+    public Vector2 velocity = new Vector2();
+    public float speed = 150;
     private TiledMapTileLayer collisionLayer;
     private String blockedKey = "blocked";
     private int targetX;

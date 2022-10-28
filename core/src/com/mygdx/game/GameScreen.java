@@ -22,10 +22,9 @@ class GameScreen implements Screen {
 	float playerX;
 	float playerY;
 
-	public void render(float delta){
-		Gdx.gl.glClearColor(0,0,0,1);
+	public void render(float delta) {
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 
 
 		playerX = player.getX();
@@ -39,16 +38,19 @@ class GameScreen implements Screen {
 		if (Gdx.input.isTouched()) {
 			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			camera.unproject(touchPos);
-			if (touchPos.x > player.getX()) {
+			if (touchPos.x > player.getX() + 200) {
 				player.velocity.x = 150;
-			} else {
+			} else if (touchPos.x < player.getX() - 200 + 32) {
 				player.velocity.x = -150;
+			} else if (touchPos.y > player.getY() + 150) {
+				player.velocity.y = 150;
+			} else if (touchPos.y < player.getY() - 150 + 32) {
+				player.velocity.y = -150;
 			}
-		}
-		else {
+		}else {
 			player.velocity.x = 0;
+			player.velocity.y = 0;
 		}
-
 		player.draw(renderer.getBatch());
 		renderer.getBatch().end();
 	}

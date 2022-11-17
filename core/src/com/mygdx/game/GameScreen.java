@@ -12,15 +12,30 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 
-class GameScreen implements Screen {
-	private Player player;
-	private OrthogonalTiledMapRenderer renderer;
-	OrthographicCamera camera;
-	private TiledMap map;
-	Vector3 touchPos;
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 
-	float playerX;
-	float playerY;
+class GameScreen implements Screen {
+	private OrthogonalTiledMapRenderer renderer;
+	private TiledMap map;
+	private OrthographicCamera camera;
+	private Player player;
+	private Vector3 touchPos;
+	/*
+	private Robot robot;
+	{
+		try {
+			robot = new Robot();
+		} catch (AWTException e) {
+			e.printStackTrace();
+		}
+	}
+
+	 */
+
+
+	private float playerX, playerY;
 
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -35,25 +50,34 @@ class GameScreen implements Screen {
 		renderer.render();
 
 		renderer.getBatch().begin();
+		//androidController();
+		player.draw(renderer.getBatch());
+		renderer.getBatch().end();
+	}
+/*
+	private void androidController() {
 		if (Gdx.input.isTouched()) {
 			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			camera.unproject(touchPos);
 			if (touchPos.x > player.getX() + 200) {
-				player.velocity.x = 150;
+				robot.keyPress(KeyEvent.VK_D);
 			} else if (touchPos.x < player.getX() - 200 + 32) {
-				player.velocity.x = -150;
+				robot.keyPress(KeyEvent.VK_A);
 			} else if (touchPos.y > player.getY() + 150) {
-				player.velocity.y = 150;
+				robot.keyPress(KeyEvent.VK_W);
 			} else if (touchPos.y < player.getY() - 150 + 32) {
-				player.velocity.y = -150;
+				robot.keyPress(KeyEvent.VK_S);
 			}
 		}else {
-			player.velocity.x = 0;
-			player.velocity.y = 0;
+			robot.keyRelease(KeyEvent.VK_D);
+			robot.keyRelease(KeyEvent.VK_S);
+			robot.keyRelease(KeyEvent.VK_A);
+			robot.keyRelease(KeyEvent.VK_W);
 		}
-		player.draw(renderer.getBatch());
-		renderer.getBatch().end();
 	}
+
+ */
+
 	@Override
 	public void dispose() {
 		renderer.dispose();
@@ -61,11 +85,14 @@ class GameScreen implements Screen {
 	@Override
 	public void show() {
 		touchPos = new Vector3();
+
 		TmxMapLoader loader = new TmxMapLoader();
 		map = loader.load("map.tmx");
 		renderer = new OrthogonalTiledMapRenderer(map);
+
 		camera = new OrthographicCamera();
 		camera.setToOrtho( false, Gdx.graphics.getWidth()/2,  Gdx.graphics.getHeight()/2);
+
 		player = new Player(new Sprite(new Texture("img/player.png")), (TiledMapTileLayer) map.getLayers().get("collisionLayer"));
 		player.setPosition(320, 440);
 		Gdx.input.setInputProcessor(player);

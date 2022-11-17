@@ -13,12 +13,13 @@ public class Player extends Sprite implements InputProcessor {
     public float speed = 150;
     private TiledMapTileLayer collisionLayer;
     private String blockedKey = "blocked";
-    private int targetX;
-    private int targetY;
-    boolean collideX = false, collideY = false;
-    boolean wasCollideX = false, wasCollideY = false;
-    boolean wasCollideLeft = false, wasCollideRight = false;
-    boolean wasCollideTop = false, wasCollideBottom = false;
+    boolean collideX, collideY,
+    wasCollideX, wasCollideY,
+    wasCollideLeft, wasCollideRight,
+    wasCollideTop, wasCollideBottom,
+    wPressed, sPressed, aPressed, dPressed,
+    xBlocked, yBlocked = false;
+
 
     public Player(Sprite sprite, TiledMapTileLayer collisionLayer) {
         super(sprite);
@@ -34,14 +35,13 @@ public class Player extends Sprite implements InputProcessor {
     private void update(float delta) {
         float oldX = getX();
         float oldY = getY();
-        float tileWidth = collisionLayer.getTileWidth(), tileHeight = collisionLayer.getTileHeight();
 
-        // move on X
         setX(getX() + velocity.x * delta);
-        if (velocity.x < 0) { // left
+
+        if (velocity.x < 0) {
             collideX = collidesLeft();
             wasCollideLeft = collideX;
-        } else if (velocity.x > 0) { //right
+        } else if (velocity.x > 0) {
             collideX = collidesRight();
             wasCollideRight = collideX;
         }
@@ -53,13 +53,13 @@ public class Player extends Sprite implements InputProcessor {
         }else {
             wasCollideX = false;
         }
-        // move on Y
+
         setY(getY() + velocity.y * delta);
 
-        if (velocity.y < 0) { // going down
+        if (velocity.y < 0) {
             collideY = collidesBottom();
             wasCollideBottom = collideY;
-        } else if (velocity.y > 0) { // going up
+        } else if (velocity.y > 0) {
             collideY = collidesTop();
             wasCollideTop = collideY;
         }
@@ -72,6 +72,106 @@ public class Player extends Sprite implements InputProcessor {
             wasCollideY = false;
         }
     }
+
+
+    @Override
+    public boolean keyDown(int keycode) {
+        switch (keycode) {
+            case Input.Keys.W:
+                if (!aPressed && !dPressed) {
+                    velocity.y += speed;
+                    xBlocked = true;
+                }
+                wPressed = true;
+                break;
+            case Input.Keys.S:
+                if (!aPressed && !dPressed) {
+                    velocity.y -= speed;
+                    xBlocked = true;
+                }
+                sPressed = true;
+                break;
+            case Input.Keys.A:
+                if (!sPressed && !wPressed) {
+                    velocity.x -= speed;
+                    yBlocked = true;
+                }
+                aPressed = true;
+                break;
+            case Input.Keys.D:
+                if (!sPressed && !wPressed) {
+                    velocity.x += speed;
+                    yBlocked = true;
+                }
+                dPressed = true;
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        switch (keycode) {
+            case Input.Keys.W:
+                if (!wasCollideTop & !yBlocked){
+                    velocity.y -= speed;
+                }
+                xBlocked = false;
+                wPressed = false;
+                wasCollideTop = false;
+                if (aPressed & !yBlocked){
+                    velocity.x -= speed;
+                }
+                if (dPressed & !yBlocked){
+                    velocity.x += speed;
+                }
+                break;
+            case Input.Keys.S:
+                if(!wasCollideBottom & !yBlocked) {
+                    velocity.y += speed;
+                }
+                xBlocked = false;
+                sPressed = false;
+                wasCollideBottom = false;
+                if (aPressed & !yBlocked){
+                    velocity.x -= speed;
+                }
+                if (dPressed & !yBlocked){
+                    velocity.x += speed;
+                }
+                break;
+            case Input.Keys.A:
+                if(!wasCollideLeft & !xBlocked) {
+                    velocity.x += speed;
+                }
+                yBlocked = false;
+                aPressed = false;
+                wasCollideLeft = false;
+                if (sPressed & !xBlocked){
+                    velocity.y -= speed;
+                }
+                if (wPressed & !xBlocked){
+                    velocity.y += speed;
+                }
+                break;
+            case Input.Keys.D:
+                if(!wasCollideRight & !xBlocked) {
+                    velocity.x -= speed;
+                }
+                yBlocked = false;
+                dPressed = false;
+                wasCollideRight = false;
+                if (sPressed & !xBlocked){
+                    velocity.y -= speed;
+                }
+                if (wPressed & !xBlocked){
+                    velocity.y += speed;
+                }
+                break;
+        }
+        return true;
+    }
+
     private boolean isCellBlocked(float x, float y) {
         TiledMapTileLayer.Cell cell = collisionLayer.getCell((int) (x / collisionLayer.getTileWidth()), (int) (y / collisionLayer.getTileHeight()));
         return cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey(blockedKey);
@@ -103,79 +203,6 @@ public class Player extends Sprite implements InputProcessor {
             if(isCellBlocked(getX() + step, getY()))
                 return true;
         return false;
-    }
-    public Vector2 getVelocity() {
-        return velocity;
-    }
-
-    public void setVelocity(Vector2 velocity) {
-        this.velocity = velocity;
-    }
-
-    public float getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(float speed) {
-        this.speed = speed;
-    }
-
-    public TiledMapTileLayer getCollisionLayer() {
-        return collisionLayer;
-    }
-
-    public void setCollisionLayer(TiledMapTileLayer collisionLayer) {
-        this.collisionLayer = collisionLayer;
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        switch (keycode) {
-            case Input.Keys.W:
-                velocity.y += speed;
-                break;
-            case Input.Keys.A:
-                velocity.x -= speed;
-                break;
-            case Input.Keys.D:
-                velocity.x += speed;
-                break;
-            case Input.Keys.S:
-                velocity.y -= speed;
-                break;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        switch (keycode) {
-            case Input.Keys.W:
-                if (!wasCollideTop){
-                    velocity.y -= speed;
-                }
-                wasCollideTop = false;
-                break;
-            case Input.Keys.S:
-                if(!wasCollideBottom) {
-                    velocity.y += speed;
-                }
-                wasCollideBottom = false;
-                break;
-            case Input.Keys.A:
-                if(!wasCollideLeft) {
-                    velocity.x += speed;
-                }
-                wasCollideLeft = false;
-                break;
-            case Input.Keys.D:
-                if(!wasCollideRight) {
-                    velocity.x -= speed;
-                }
-                wasCollideRight = false;
-                break;
-        }
-        return true;
     }
 
     @Override

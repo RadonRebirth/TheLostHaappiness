@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 
 
 public class NovellaScreen implements Screen {
@@ -25,20 +26,22 @@ public class NovellaScreen implements Screen {
             ""};
     @Override
     public void show() {
+        Matrix4 normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1440, 720);
         batch = new SpriteBatch();
+        batch.setProjectionMatrix(normalProjection);
     }
     public NovellaScreen(final Game game) {
         this.game = game;
     }
     @Override
     public void render(float delta) {
-
-        game.batch.setProjectionMatrix(camera.combined);
+        Matrix4 normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
+        game.batch.setProjectionMatrix(normalProjection);
 
         game.batch.begin();
-        game.font.draw(game.batch, StringArray[page], 50, startY);
+        game.font.draw(game.batch, StringArray[page], 25, startY);
         camera.update();
         game.batch.end();
 

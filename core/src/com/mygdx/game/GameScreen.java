@@ -53,6 +53,7 @@ class GameScreen implements Screen {
 		//androidController();
 		player.draw(renderer.getBatch());
 		renderer.getBatch().end();
+		camera.update();
 	}
 /*
 	private void androidController() {
@@ -96,6 +97,7 @@ class GameScreen implements Screen {
 		player = new Player(new Sprite(new Texture("img/player.png")), (TiledMapTileLayer) map.getLayers().get("collisionLayer"));
 		player.setPosition(320, 440);
 		Gdx.input.setInputProcessor(player);
+		camera.update();
 		}
 	@Override
 	public void resize(int width, int height) {

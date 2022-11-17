@@ -17,7 +17,6 @@ public class Player extends Sprite implements InputProcessor {
     wasCollideX, wasCollideY,
     wasCollideLeft, wasCollideRight,
     wasCollideTop, wasCollideBottom,
-    wPressed, sPressed, aPressed, dPressed,
     xBlocked, yBlocked = false;
 
 
@@ -78,32 +77,20 @@ public class Player extends Sprite implements InputProcessor {
     public boolean keyDown(int keycode) {
         switch (keycode) {
             case Input.Keys.W:
-                if (!aPressed && !dPressed) {
                     velocity.y += speed;
-                    xBlocked = true;
-                }
-                wPressed = true;
+
                 break;
             case Input.Keys.S:
-                if (!aPressed && !dPressed) {
                     velocity.y -= speed;
-                    xBlocked = true;
-                }
-                sPressed = true;
+
                 break;
             case Input.Keys.A:
-                if (!sPressed && !wPressed) {
                     velocity.x -= speed;
-                    yBlocked = true;
-                }
-                aPressed = true;
+
                 break;
             case Input.Keys.D:
-                if (!sPressed && !wPressed) {
                     velocity.x += speed;
-                    yBlocked = true;
-                }
-                dPressed = true;
+
                 break;
         }
         return true;
@@ -113,58 +100,50 @@ public class Player extends Sprite implements InputProcessor {
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Input.Keys.W:
-                if (!wasCollideTop & !yBlocked){
+                if (!wasCollideTop){
                     velocity.y -= speed;
                 }
-                xBlocked = false;
-                wPressed = false;
                 wasCollideTop = false;
-                if (aPressed & !yBlocked){
+                if (!yBlocked){
                     velocity.x -= speed;
                 }
-                if (dPressed & !yBlocked){
+                if (!yBlocked){
                     velocity.x += speed;
                 }
                 break;
             case Input.Keys.S:
-                if(!wasCollideBottom & !yBlocked) {
+                if(!wasCollideBottom) {
                     velocity.y += speed;
                 }
-                xBlocked = false;
-                sPressed = false;
                 wasCollideBottom = false;
-                if (aPressed & !yBlocked){
+                if (!yBlocked){
                     velocity.x -= speed;
                 }
-                if (dPressed & !yBlocked){
+                if (!yBlocked){
                     velocity.x += speed;
                 }
                 break;
             case Input.Keys.A:
-                if(!wasCollideLeft & !xBlocked) {
+                if(!wasCollideLeft) {
                     velocity.x += speed;
                 }
-                yBlocked = false;
-                aPressed = false;
                 wasCollideLeft = false;
-                if (sPressed & !xBlocked){
+                if (!xBlocked){
                     velocity.y -= speed;
                 }
-                if (wPressed & !xBlocked){
+                if (!xBlocked){
                     velocity.y += speed;
                 }
                 break;
             case Input.Keys.D:
-                if(!wasCollideRight & !xBlocked) {
+                if(!wasCollideRight) {
                     velocity.x -= speed;
                 }
-                yBlocked = false;
-                dPressed = false;
                 wasCollideRight = false;
-                if (sPressed & !xBlocked){
+                if (!xBlocked){
                     velocity.y -= speed;
                 }
-                if (wPressed & !xBlocked){
+                if (!xBlocked){
                     velocity.y += speed;
                 }
                 break;

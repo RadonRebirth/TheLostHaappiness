@@ -46,6 +46,7 @@ public class NovellaScreen implements Screen {
         game.batch.end();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+
             page+=1;
             startY-=30;
         }

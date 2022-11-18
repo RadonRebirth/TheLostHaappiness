@@ -28,7 +28,7 @@ public class NovellaScreen implements Screen {
     public void show() {
         Matrix4 normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 1440, 720);
+        camera.setToOrtho(false, 1280/4, 720/4);
         batch = new SpriteBatch();
         batch.setProjectionMatrix(normalProjection);
     }
@@ -59,7 +59,10 @@ public class NovellaScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {}
+    public void resize(int width, int height) {
+        width = 1280;
+        height = 720;
+    }
     @Override
     public void pause() {}
     @Override

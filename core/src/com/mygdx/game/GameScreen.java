@@ -26,7 +26,7 @@ class GameScreen implements Screen {
 	private OrthographicCamera camera;
 	private Player player;
 	private Vector3 touchPos;
-	/*
+
 	private Robot robot;
 	{
 		try {
@@ -36,7 +36,7 @@ class GameScreen implements Screen {
 		}
 	}
 
-	 */
+
 
 
 	private float playerX, playerY;
@@ -55,12 +55,12 @@ class GameScreen implements Screen {
 		renderer.render();
 
 		renderer.getBatch().begin();
-		//androidController();
+		androidController();
 		player.draw(renderer.getBatch());
 		renderer.getBatch().end();
 		camera.update();
 	}
-/*
+
 	private void androidController() {
 		if (Gdx.input.isTouched()) {
 			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -82,7 +82,7 @@ class GameScreen implements Screen {
 		}
 	}
 
- */
+
 
 	@Override
 	public void dispose() {

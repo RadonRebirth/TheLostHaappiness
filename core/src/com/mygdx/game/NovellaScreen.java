@@ -79,23 +79,28 @@ public class NovellaScreen implements Screen {
                     }
                     if (!end){
                         font.draw(batch, drawText, startX, startY);
+                        NovellaScreen.update(1);
+                        Gdx.gl.glClearColor(0, 0, 0, 0);
+                        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
                     }
                     if (end) {
                         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) | Gdx.input.isTouched()) {
+                            resume();
                             page++;
                             stringIndex = 0;
                             drawText = "";
-                            NovellaScreen.update(deltaTime);
+                            NovellaScreen.update(1);
                             Gdx.gl.glClearColor(0, 0, 0, 0);
                             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
                             end = false;
+                            if (page == StringArray.length){
+                                game.setScreen(new GameScreen());
+                            }
                         }
                     }
                     batch.flush();
         }
-        if (page == StringArray.length){
-            game.setScreen(new GameScreen());
-        }
+
         batch.end();
 
     }

@@ -17,11 +17,8 @@ import sun.print.BackgroundLookupListener;
 
 public class Menu implements Screen {
 
-    TextureRegion Texture;
     OrthographicCamera camera;
-    SpriteBatch spriteBatch;
     Texture[] menuBackgroundArray;
-    Array<Background> animalsDrops;
     Texture menu1;
     Texture menu2;
     Texture menu3;
@@ -48,7 +45,6 @@ public class Menu implements Screen {
     Texture menu24;
     Texture currentMenu;
     int i=0;
-    int type = 0;
     Music musicmenu;
     Game game;
 
@@ -81,7 +77,6 @@ public class Menu implements Screen {
                 menu23 = new Texture(Gdx.files.internal("menuanimation/menu23.png")),
                 menu24 = new Texture(Gdx.files.internal("menuanimation/menu24.png")),};
 
-        animalsDrops = new Array<>();
         camera = new OrthographicCamera();
         camera.setToOrtho(false,1280,720);
 
@@ -93,9 +88,7 @@ public class Menu implements Screen {
     }
 
     @Override
-    public void show() {
-
-    }
+    public void show() {}
 
     @Override
     public void render(float delta) {
@@ -115,34 +108,13 @@ public class Menu implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
-
+    public void resize(int width, int height) {}
     @Override
-    public void pause() {
-
-    }
-
+    public void pause() {}
     @Override
-    public void resume() {
-
-    }
-
+    public void resume() {}
     @Override
-    public void hide() {
-
-    }
-
+    public void hide() {}
     @Override
-    public void dispose() {
-
-    }
-}
-class Background{
-    int type;
-    public Background(int type) {
-        this.type = type;
-    }
-
+    public void dispose() {}
 }

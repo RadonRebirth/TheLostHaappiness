@@ -3,17 +3,22 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
+
+import java.util.Arrays;
+
+import javax.swing.border.StrokeBorder;
 
 
 public class NovellaScreen implements Screen {
     private OrthographicCamera camera;
     private SpriteBatch batch;
     final Game game;
-    int page = 0;
-    int startY = 500;
+    BitmapFont font;
     String[] StringArray = {
             "Вы когда-нибудь задумывались о важных вещах в вашей жизни?",
             "Теряли что-нибудь?",
@@ -23,49 +28,78 @@ public class NovellaScreen implements Screen {
             "Этому и наша поучительная история:",
             "Всегда, и только всегда, берегите абсолютно всё в вашей жизни.",
             "Почему? Потому что для вас это небольшая страница в жизни, а для кого-то – целая жизнь.",
-            ""};
+            ".",
+            "..",
+            "..."
+            };
+    int page = 0;
+    String currentStr = StringArray[page];;
+    int startY = 400;
+    int startX = 25;
+    boolean paused = false;
+    boolean startText = false;
+
+
+    final float letterSpawnTime = .1f;
+    float timer = 0;
+
+    String completeText = "The complete text.";
+    String drawText = "";
+    int stringIndex = 0;
     @Override
     public void show() {
-        Matrix4 normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 1280/4, 720/4);
-        batch = new SpriteBatch();
-        batch.setProjectionMatrix(normalProjection);
+        camera.setToOrtho(false,1280,720);
     }
     public NovellaScreen(final Game game) {
         this.game = game;
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false,1280,720);
+
     }
     @Override
-    public void render(float delta) {
-        Matrix4 normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
-        game.batch.setProjectionMatrix(normalProjection);
+    public void render(float deltaTime) {
 
-        game.batch.begin();
-        game.font.draw(game.batch, StringArray[page], 25, startY);
-        camera.update();
-        game.batch.end();
+        font = game.getFont();
+        Matrix4 normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch = new SpriteBatch();
+        batch.setProjectionMatrix(normalProjection);
+        batch.begin();
+//        if (!paused) {
+//            NovellaScreen.update(deltaTime);
+//            Gdx.gl.glClearColor(0, 0, 0, 0);
+//            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+//        }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+        if (page < StringArray.length) {
+            currentStr = StringArray[page];
+            timer += deltaTime;
+            for (int i = 0; i < StringArray.length; i++) {
+                StringBuffer strBuffer = new StringBuffer(StringArray[i]);
+                if (timer >= letterSpawnTime) {
+                    drawText = drawText + strBuffer.charAt(stringIndex);
+                    stringIndex++;
+                    timer -= letterSpawnTime;
+                }
 
-            page+=1;
-            startY-=30;
+                font.draw(batch, drawText, startX, startY);
+                batch.flush();
+                NovellaScreen.update(deltaTime);
+            }
         }
-        camera.update();
+        batch.end();
+    }
 
-        if(page == 8){
-            game.setScreen(new GameScreen());
-            camera.update();
-        }
-        camera.update();
+    private static void update(float deltaTime) {
     }
 
     @Override
     public void resize(int width, int height) {
-        width = 1280;
-        height = 720;
     }
     @Override
-    public void pause() {}
+    public void pause() {
+        paused = true;
+    }
     @Override
     public void resume() {}
     @Override
@@ -74,5 +108,6 @@ public class NovellaScreen implements Screen {
     @Override
     public void dispose() {
         batch.dispose();
+        font.dispose();
     }
 }

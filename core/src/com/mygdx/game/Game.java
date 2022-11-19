@@ -17,16 +17,7 @@ public class Game extends com.badlogic.gdx.Game {
 
         batch = new SpriteBatch();
         batch.setProjectionMatrix(normalProjection);
-
         font = new BitmapFont();
-  /*      FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ComicMono.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size=24;
-        parameter.borderColor = Color.BLACK;
-        parameter.borderWidth = 3;
-        font = generator.generateFont(parameter);
-        font.setColor(Color.WHITE);
-*/
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("pixelfont_7.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter param = new FreeTypeFontGenerator.FreeTypeFontParameter();
         param.size = 24;
@@ -38,7 +29,7 @@ public class Game extends com.badlogic.gdx.Game {
         font.setColor(Color.WHITE);
 
         generator.dispose();
-        setScreen(new Menu(this));
+        setScreen(new NovellaScreen(this));
     }
 
     public void render() {
@@ -48,5 +39,9 @@ public class Game extends com.badlogic.gdx.Game {
     public void dispose() {
         batch.dispose();
         font.dispose();
+    }
+
+    public BitmapFont getFont() {
+        return font;
     }
 }

@@ -14,7 +14,7 @@
    <tile id="11">
       <properties>
        <property name="blocked" value=""/>
-      </properties>
+      </properties>w
      </tile>
   <tile id="12">
     <properties>

@@ -79,8 +79,8 @@ public class NovellaScreen implements Screen {
                     }
                     if (!end){
                         font.draw(batch, drawText, startX, startY);
-                        NovellaScreen.update(1);
-                        Gdx.gl.glClearColor(0, 0, 0, 0);
+//                        NovellaScreen.update(1);
+//                        Gdx.gl.glClearColor(0, 0, 0, 0);
                         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
                     }
                     if (end) {
@@ -89,8 +89,8 @@ public class NovellaScreen implements Screen {
                             page++;
                             stringIndex = 0;
                             drawText = "";
-                            NovellaScreen.update(1);
-                            Gdx.gl.glClearColor(0, 0, 0, 0);
+//                            NovellaScreen.update(1);
+//                            Gdx.gl.glClearColor(0, 0, 0, 0);
                             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
                             end = false;
                             if (page == StringArray.length){
@@ -100,7 +100,6 @@ public class NovellaScreen implements Screen {
                     }
                     batch.flush();
         }
-
         batch.end();
 
     }

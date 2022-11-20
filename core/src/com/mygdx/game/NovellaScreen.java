@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -24,30 +25,29 @@ public class NovellaScreen implements Screen {
             "Вы когда-нибудь задумывались о важных вещах в вашей жизни? ",
             "Теряли что-нибудь? ",
             "Что вы делали, если не находили какую-то деталь или мелкий предмет? ",
-            "Думаю, что даже самые маленькие вещи или детальки могут иметь большой смысл в вашей жизни. ",
+            "Думаю, что даже самые маленькие вещи или детальки ",
+            "Могут иметь большой смысл в вашей жизни. ",
             "Но некоторые люди от плохой судьбы теряют друзей, семью и близких... ",
             "Этому и наша поучительная история: ",
             "Всегда, и только всегда, берегите абсолютно всё в вашей жизни. ",
-            "Почему? Потому что для вас это небольшая страница в жизни, а для кого-то – целая жизнь. "
+            "Почему? Потому что для вас это небольшая страница в жизни, ",
+            "А для кого-то – целая жизнь. "
             };
     int page = 0;
     String currentStr = StringArray[page];;
-    int startY = 400;
+    int startY = Gdx.graphics.getWidth()-880;
     int startX = 25;
     boolean paused = false;
     boolean startText = false;
     StringBuffer strBuffer;
 
-    final float letterSpawnTime = .1f;
+    float letterSpawnTime = .1f;
     float timer = 0;
     int stringIndex = 0;
     String drawText = "";
 
     @Override
     public void show() {
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false,1280,720);
-
     }
     public NovellaScreen(final Game game) {
         this.game = game;
@@ -100,6 +100,18 @@ public class NovellaScreen implements Screen {
                     }
                     batch.flush();
         }
+        switch (page){
+            case 7:
+                font.setColor(Color.PURPLE);
+                break;
+            case 8:
+                font.setColor(Color.WHITE);
+                break;
+            case 9:
+                letterSpawnTime = .3f;
+                font.setColor(Color.RED);
+                break;
+        }
         batch.end();
 
     }
@@ -109,13 +121,16 @@ public class NovellaScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
+        startY = Gdx.graphics.getWidth()/3;
+        startX = 150;
     }
     @Override
     public void pause() {
         paused = true;
     }
     @Override
-    public void resume() {}
+    public void resume() {
+    }
     @Override
     public void hide() {}
 

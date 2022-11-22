@@ -47,26 +47,11 @@ public class Menu implements Screen {
     Texture menu13;
     Texture menu14;
     Texture menu15;
-    Texture menu16;
-    Texture menu17;
-    Texture menu18;
-    Texture menu19;
-    Texture menu20;
-    Texture menu21;
-    Texture menu22;
-    Texture menu23;
-    Texture menu24;
     Texture currentMenu;
     int i=0;
-    int type = 0;
 
     Music musicmenu;
     Game game;
-
-//    Stage stage;
-//    TextButton button;
-//    TextButton.TextButtonStyle textButtonStyle;
-//    BitmapFont font;
 
     private Stage stage;
     private Stage stage2;

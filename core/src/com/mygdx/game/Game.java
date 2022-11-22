@@ -20,7 +20,7 @@ public class Game extends com.badlogic.gdx.Game {
         font = new BitmapFont();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("mine.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter param = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        param.size = 18;
+        param.size = 20;
         param.borderColor = Color.BLACK;
         param.borderWidth = 2;
         String FONT_CHARACTERS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-[];:.,/?!&";
@@ -29,7 +29,7 @@ public class Game extends com.badlogic.gdx.Game {
         font.setColor(Color.WHITE);
 
         generator.dispose();
-        setScreen(new NovellaScreen(this));
+        setScreen(new GameScreen());
     }
 
     public void render() {

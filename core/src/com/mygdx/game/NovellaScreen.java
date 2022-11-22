@@ -24,24 +24,22 @@ public class NovellaScreen implements Screen {
     String[] StringArray = {
             "Вы когда-нибудь задумывались о важных вещах в вашей жизни? ",
             "Теряли что-нибудь? ",
-            "Что вы делали, если не находили какую-то деталь или мелкий предмет? ",
-            "Думаю, что даже самые маленькие вещи или детальки ",
-            "Могут иметь большой смысл в вашей жизни. ",
+            "Что вы делали, если не находили какую-то деталь или предмет? ",
+            "Думаю, даже самые маленькие вещи имеют большой смысл в жизни. ",
             "Но некоторые люди от плохой судьбы теряют друзей, семью и близких... ",
-            "Этому и наша поучительная история: ",
+            "Этому и наша поучительная история. ",
             "Всегда, и только всегда, берегите абсолютно всё в вашей жизни. ",
-            "Почему? Потому что для вас это небольшая страница в жизни, ",
+            "Для вас это небольшая страница в жизни, ",
             "А для кого-то – целая жизнь. "
             };
     int page = 0;
     String currentStr = StringArray[page];;
-    int startY = Gdx.graphics.getWidth()-880;
+    int startY = Gdx.graphics.getWidth()-880; //координаты
     int startX = 25;
     boolean paused = false;
-    boolean startText = false;
     StringBuffer strBuffer;
 
-    float letterSpawnTime = .1f;
+    float letterSpawnTime = .07f;
     float timer = 0;
     int stringIndex = 0;
     String drawText = "";
@@ -101,14 +99,14 @@ public class NovellaScreen implements Screen {
                     batch.flush();
         }
         switch (page){
-            case 7:
+            case 6:
                 font.setColor(Color.PURPLE);
                 break;
-            case 8:
+            case 7:
                 font.setColor(Color.WHITE);
                 break;
-            case 9:
-                letterSpawnTime = .3f;
+            case 8:
+                letterSpawnTime = .2f;
                 font.setColor(Color.RED);
                 break;
         }

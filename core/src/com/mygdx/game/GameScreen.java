@@ -28,14 +28,7 @@ class GameScreen implements Screen {
 	private Vector3 touchPos;
 	Texture background;
 
-//	private Robot robot;
-//	{
-//		try {
-//			robot = new Robot();
-//		} catch (AWTException e) {
-//			e.printStackTrace();
-//		}
-//	}
+
 
 
 
@@ -56,7 +49,7 @@ class GameScreen implements Screen {
 		renderer.render();
 
 		renderer.getBatch().begin();
-//		androidController();
+		androidController();
 		//renderer.getBatch().draw(background,0,0);
 		player.draw(renderer.getBatch());
 
@@ -64,26 +57,24 @@ class GameScreen implements Screen {
 		camera.update();
 	}
 
-//	private void androidController() {
-//		if (Gdx.input.isTouched()) {
-//			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-//			camera.unproject(touchPos);
-//			if (touchPos.x > player.getX() + 200) {
-//				robot.keyPress(KeyEvent.VK_D);
-//			} else if (touchPos.x < player.getX() - 200 + 32) {
-//				robot.keyPress(KeyEvent.VK_A);
-//			} else if (touchPos.y > player.getY() + 150) {
-//				robot.keyPress(KeyEvent.VK_W);
-//			} else if (touchPos.y < player.getY() - 150 + 32) {
-//				robot.keyPress(KeyEvent.VK_S);
-//			}
-//		}else {
-//			robot.keyRelease(KeyEvent.VK_D);
-//			robot.keyRelease(KeyEvent.VK_S);
-//			robot.keyRelease(KeyEvent.VK_A);
-//			robot.keyRelease(KeyEvent.VK_W);
-//		}
-//	}
+	private void androidController() {
+		if (Gdx.input.isTouched()) {
+			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+			camera.unproject(touchPos);
+			if (touchPos.x > player.getX() + 200) {
+				player.velocity.x = player.speed;
+			} else if (touchPos.x < player.getX() - 200 + 32) {
+				player.velocity.x = -player.speed;
+			} else if (touchPos.y > player.getY() + 150) {
+				player.velocity.y = player.speed;
+			} else if (touchPos.y < player.getY() - 150 + 32) {
+				player.velocity.y = -player.speed;
+			}
+		}else {
+			player.velocity.x = 0;
+			player.velocity.y = 0;
+		}
+	}
 
 
 
@@ -101,7 +92,7 @@ class GameScreen implements Screen {
 		renderer = new OrthogonalTiledMapRenderer(map);
 		background = new Texture(Gdx.files.internal("map.png"));
 		camera = new OrthographicCamera();
-		camera.setToOrtho( false, Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
+		camera.setToOrtho( false, Gdx.graphics.getWidth()/1.5f,  Gdx.graphics.getHeight()/1.5f);
 
 		player = new Player(new Sprite(new Texture("img/player.png")), (TiledMapTileLayer) map.getLayers().get("collisionLayer"));
 		player.setPosition(310, 600);

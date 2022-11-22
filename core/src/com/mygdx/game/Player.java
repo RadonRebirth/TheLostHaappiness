@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Player extends Sprite implements InputProcessor {
     public Vector2 velocity = new Vector2();
-    public float speed = 150;
+    public float speed = 120;
     private TiledMapTileLayer collisionLayer;
     private String blockedKey = "blocked";
     boolean collideX, collideY,

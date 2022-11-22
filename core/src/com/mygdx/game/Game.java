@@ -49,4 +49,8 @@ public class Game extends com.badlogic.gdx.Game {
         batch.dispose();
         font.dispose();
     }
+
+    public BitmapFont getFont() {
+        return font;
+    }
 }

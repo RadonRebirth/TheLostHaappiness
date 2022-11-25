@@ -6,7 +6,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 public class DesktopLauncher {
 	public static void main (String[] args) {
 		Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
-		cfg.setTitle("Catch kittens");
+		cfg.setTitle("The Lost Happiness");
 		cfg.setWindowIcon("Person.jpg");
 		cfg.setForegroundFPS(144);
 		cfg.setIdleFPS(144);

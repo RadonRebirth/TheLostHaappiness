@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -20,6 +21,7 @@ public class NovellaScreen implements Screen {
     private SpriteBatch batch;
     final Game game;
     BitmapFont font;
+    Music clickSound;
     boolean end = false;
     String[] StringArray = {
             "Вы когда-нибудь задумывались о важных вещах в вашей жизни? ",
@@ -39,7 +41,7 @@ public class NovellaScreen implements Screen {
     boolean paused = false;
     StringBuffer strBuffer;
 
-    float letterSpawnTime = .07f;
+    float letterSpawnTime = .1f;
     float timer = 0;
     int stringIndex = 0;
     String drawText = "";
@@ -51,6 +53,7 @@ public class NovellaScreen implements Screen {
         this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false,1280,720);
+        clickSound = Gdx.audio.newMusic(Gdx.files.internal("music/clickSound.mp3"));
 
     }
     @Override
@@ -62,41 +65,38 @@ public class NovellaScreen implements Screen {
         batch.setProjectionMatrix(normalProjection);
         batch.begin();
         if (page < StringArray.length) {
-
             currentStr = StringArray[page];
             timer += deltaTime;
-                    strBuffer = new StringBuffer(StringArray[page]);
-                    if (timer >= letterSpawnTime) {
-                        drawText = drawText + strBuffer.charAt(stringIndex);
-                        if(stringIndex < strBuffer.length()-1) {
-                            stringIndex++;
-                        }else {
-                            end = true;
-                        }
-                        timer -= letterSpawnTime;
+            strBuffer = new StringBuffer(StringArray[page]);
+            if (timer >= letterSpawnTime) {
+                drawText = drawText + strBuffer.charAt(stringIndex);
+                if(stringIndex < strBuffer.length()-1) {
+                    stringIndex++;
+                }else {
+                    end = true;
+                }
+                timer -= letterSpawnTime;
+            }
+            if (!end){
+                font.draw(batch, drawText, startX, startY);
+                clickSound.play();
+                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            }
+            if (end) {
+                clickSound.pause();
+                if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) | Gdx.input.isTouched()) {
+                    resume();
+                    page++;
+                    stringIndex = 0;
+                    drawText = "";
+                    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                    end = false;
+                    if (page == StringArray.length){
+                        game.setScreen(new GameScreen());
                     }
-                    if (!end){
-                        font.draw(batch, drawText, startX, startY);
-//                        NovellaScreen.update(1);
-//                        Gdx.gl.glClearColor(0, 0, 0, 0);
-                        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-                    }
-                    if (end) {
-                        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) | Gdx.input.isTouched()) {
-                            resume();
-                            page++;
-                            stringIndex = 0;
-                            drawText = "";
-//                            NovellaScreen.update(1);
-//                            Gdx.gl.glClearColor(0, 0, 0, 0);
-                            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-                            end = false;
-                            if (page == StringArray.length){
-                                game.setScreen(new GameScreen());
-                            }
-                        }
-                    }
-                    batch.flush();
+                }
+            }
+            batch.flush();
         }
         switch (page){
             case 6:
@@ -106,7 +106,6 @@ public class NovellaScreen implements Screen {
                 font.setColor(Color.WHITE);
                 break;
             case 8:
-                letterSpawnTime = .2f;
                 font.setColor(Color.RED);
                 break;
         }
@@ -134,6 +133,7 @@ public class NovellaScreen implements Screen {
 
     @Override
     public void dispose() {
+        clickSound.dispose();
         batch.dispose();
         font.dispose();
     }

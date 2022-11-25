@@ -46,6 +46,7 @@ class GameScreen implements Screen {
 	Texture frame4;
 	Texture frame5;
 	Texture frame6;
+	Texture frame7;
 
 	public void render(float delta) {
 
@@ -70,7 +71,8 @@ class GameScreen implements Screen {
 				frame3 = new Texture(Gdx.files.internal("data/Animation/WalkLeft/l3.png")),
 				frame4 = new Texture(Gdx.files.internal("data/Animation/WalkLeft/l4.png")),
 				frame5 = new Texture(Gdx.files.internal("data/Animation/WalkLeft/l5.png")),
-				frame6 = new Texture(Gdx.files.internal("data/Animation/WalkLeft/l6.png"))};
+				frame6 = new Texture(Gdx.files.internal("data/Animation/WalkLeft/l6.png")),
+				frame7 = new Texture(Gdx.files.internal("data/Animation/WalkLeft/l7.png"))};
 
 		framesRight = new Texture[]{
 				frame1 = new Texture(Gdx.files.internal("data/Animation/WalkRight/r1.png")),
@@ -78,7 +80,8 @@ class GameScreen implements Screen {
 				frame3 = new Texture(Gdx.files.internal("data/Animation/WalkRight/r3.png")),
 				frame4 = new Texture(Gdx.files.internal("data/Animation/WalkRight/r4.png")),
 				frame5 = new Texture(Gdx.files.internal("data/Animation/WalkRight/r5.png")),
-				frame6 = new Texture(Gdx.files.internal("data/Animation/WalkRight/r6.png"))};
+				frame6 = new Texture(Gdx.files.internal("data/Animation/WalkRight/r6.png")),
+				frame7 = new Texture(Gdx.files.internal("data/Animation/WalkRight/r7.png"))};
 
 
 
@@ -91,7 +94,7 @@ class GameScreen implements Screen {
 
 		renderer.getBatch().begin();
 //		androidController();
-//
+
 		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 			timer += delta;
 			if (timer >= letterSpawnTime) {
@@ -135,14 +138,15 @@ class GameScreen implements Screen {
 			timer += delta;
 			if (timer >= letterSpawnTime) {
 				if (frameCount < framesRight.length) {
-					currentFrameTime = framesRight[frameCount];
-					frameCount++;
-					player.setTexture(currentFrameTime);
+						currentFrameTime = framesRight[frameCount];
+						frameCount++;
+						player.setTexture(currentFrameTime);
 				} else {
-					frameCount = 0;
+						frameCount = 0;
 				}
 				timer -= letterSpawnTime;
 			}
+
 		}
 		player.draw(renderer.getBatch());
 		renderer.getBatch().end();

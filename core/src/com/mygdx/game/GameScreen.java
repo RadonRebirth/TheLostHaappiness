@@ -91,7 +91,7 @@ class GameScreen implements Screen {
 
 		renderer.getBatch().begin();
 //		androidController();
-
+//
 		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 			timer += delta;
 			if (timer >= letterSpawnTime) {

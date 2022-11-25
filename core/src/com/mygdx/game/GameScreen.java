@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -25,15 +26,60 @@ class GameScreen implements Screen {
 	private TiledMap map;
 	private OrthographicCamera camera;
 	private Player player;
-	private Vector3 touchPos;
 	Texture background;
+	private Vector3 touchPos;
+	private Texture currentFrameTime;
+	private int frameCount = 0;
+	private int frame;
+	float timer = 0;
+	float letterSpawnTime = .1f;
 
 	private float playerX, playerY;
+
+	private Texture[] framesRight;
+	private Texture[] framesLeft;
+	private Texture[] framesUp;
+	private Texture[] framesDown;
+	Texture frame1;
+	Texture frame2;
+	Texture frame3;
+	Texture frame4;
+	Texture frame5;
+	Texture frame6;
 
 	public void render(float delta) {
 
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		framesUp = new Texture[]{
+				frame1 = new Texture(Gdx.files.internal("data/Animation/WalkUp/u1.png")),
+				frame2 = new Texture(Gdx.files.internal("data/Animation/WalkUp/u2.png")),
+				frame3 = new Texture(Gdx.files.internal("data/Animation/WalkUp/u3.png")),
+				frame4 = new Texture(Gdx.files.internal("data/Animation/WalkUp/u4.png"))};
+
+		framesDown = new Texture[]{
+				frame1 = new Texture(Gdx.files.internal("data/Animation/WalkDown/d1.png")),
+				frame2 = new Texture(Gdx.files.internal("data/Animation/WalkDown/d2.png")),
+				frame3 = new Texture(Gdx.files.internal("data/Animation/WalkDown/d3.png")),
+				frame4 = new Texture(Gdx.files.internal("data/Animation/WalkDown/d4.png"))};
+
+		framesLeft = new Texture[]{
+				frame1 = new Texture(Gdx.files.internal("data/Animation/WalkLeft/l1.png")),
+				frame2 = new Texture(Gdx.files.internal("data/Animation/WalkLeft/l2.png")),
+				frame3 = new Texture(Gdx.files.internal("data/Animation/WalkLeft/l3.png")),
+				frame4 = new Texture(Gdx.files.internal("data/Animation/WalkLeft/l4.png")),
+				frame5 = new Texture(Gdx.files.internal("data/Animation/WalkLeft/l5.png")),
+				frame6 = new Texture(Gdx.files.internal("data/Animation/WalkLeft/l6.png"))};
+
+		framesRight = new Texture[]{
+				frame1 = new Texture(Gdx.files.internal("data/Animation/WalkRight/r1.png")),
+				frame2 = new Texture(Gdx.files.internal("data/Animation/WalkRight/r2.png")),
+				frame3 = new Texture(Gdx.files.internal("data/Animation/WalkRight/r3.png")),
+				frame4 = new Texture(Gdx.files.internal("data/Animation/WalkRight/r4.png")),
+				frame5 = new Texture(Gdx.files.internal("data/Animation/WalkRight/r5.png")),
+				frame6 = new Texture(Gdx.files.internal("data/Animation/WalkRight/r6.png"))};
+
 
 
 		playerX = player.getX();
@@ -45,8 +91,60 @@ class GameScreen implements Screen {
 
 		renderer.getBatch().begin();
 //		androidController();
-		player.draw(renderer.getBatch());
 
+		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+			timer += delta;
+			if (timer >= letterSpawnTime) {
+				if (frameCount < framesUp.length) {
+					currentFrameTime = framesUp[frameCount];
+					frameCount++;
+					player.setTexture(currentFrameTime);
+				} else {
+					frameCount = 0;
+				}
+				timer -= letterSpawnTime;
+			}
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+			timer += delta;
+			if (timer >= letterSpawnTime) {
+				if (frameCount < framesLeft.length) {
+					currentFrameTime = framesLeft[frameCount];
+					frameCount++;
+					player.setTexture(currentFrameTime);
+				}else{
+					frameCount = 0;
+				}
+				timer -= letterSpawnTime;
+			}
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+			timer += delta;
+			if (timer >= letterSpawnTime) {
+				if (frameCount < framesDown.length) {
+					currentFrameTime = framesDown[frameCount];
+					frameCount++;
+					player.setTexture(currentFrameTime);
+				} else {
+					frameCount = 0;
+				}
+				timer -= letterSpawnTime;
+			}
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+			timer += delta;
+			if (timer >= letterSpawnTime) {
+				if (frameCount < framesRight.length) {
+					currentFrameTime = framesRight[frameCount];
+					frameCount++;
+					player.setTexture(currentFrameTime);
+				} else {
+					frameCount = 0;
+				}
+				timer -= letterSpawnTime;
+			}
+		}
+		player.draw(renderer.getBatch());
 		renderer.getBatch().end();
 		camera.update();
 	}

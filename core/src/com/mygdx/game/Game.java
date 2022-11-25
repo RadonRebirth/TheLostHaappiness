@@ -29,7 +29,7 @@ public class Game extends com.badlogic.gdx.Game {
         font.setColor(Color.WHITE);
 
         generator.dispose();
-        setScreen(new Menu(this));
+        setScreen(new GameScreen());
     }
 
     public void render() {

@@ -35,8 +35,7 @@ public class NovellaScreen implements Screen {
             "А для кого-то – целая жизнь. "
             };
     int page = 0;
-    String currentStr = StringArray[page];;
-    int startY = Gdx.graphics.getWidth()-880; //координаты
+    int startY = Gdx.graphics.getWidth()-880;
     int startX = 25;
     boolean paused = false;
     StringBuffer strBuffer;
@@ -65,7 +64,6 @@ public class NovellaScreen implements Screen {
         batch.setProjectionMatrix(normalProjection);
         batch.begin();
         if (page < StringArray.length) {
-            currentStr = StringArray[page];
             timer += deltaTime;
             strBuffer = new StringBuffer(StringArray[page]);
             if (timer >= letterSpawnTime) {
@@ -112,7 +110,6 @@ public class NovellaScreen implements Screen {
         batch.end();
 
     }
-
     private static void update(float deltaTime) {
     }
 

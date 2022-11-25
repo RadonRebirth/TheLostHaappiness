@@ -28,11 +28,6 @@ class GameScreen implements Screen {
 	private Vector3 touchPos;
 	Texture background;
 
-
-
-
-
-
 	private float playerX, playerY;
 
 	public void render(float delta) {
@@ -49,33 +44,32 @@ class GameScreen implements Screen {
 		renderer.render();
 
 		renderer.getBatch().begin();
-		androidController();
-		//renderer.getBatch().draw(background,0,0);
+//		androidController();
 		player.draw(renderer.getBatch());
 
 		renderer.getBatch().end();
 		camera.update();
 	}
 
-	private void androidController() {
-		if (Gdx.input.isTouched()) {
-			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			camera.unproject(touchPos);
-			if (touchPos.x > player.getX() + 200) {
-				player.velocity.x = player.speed;
-			} else if (touchPos.x < player.getX() - 200 + 32) {
-				player.velocity.x = -player.speed;
-			} else if (touchPos.y > player.getY() + 150) {
-				player.velocity.y = player.speed;
-			} else if (touchPos.y < player.getY() - 150 + 32) {
-				player.velocity.y = -player.speed;
-			}
-		}else {
-			player.velocity.x = 0;
-			player.velocity.y = 0;
-		}
-	}
-
+//	private void androidController() {
+//		if (Gdx.input.isTouched()) {
+//			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+//			camera.unproject(touchPos);
+//			if (touchPos.x > player.getX() + 200) {
+//				player.velocity.x = player.speed;
+//			} else if (touchPos.x < player.getX() - 200 + 32) {
+//				player.velocity.x = -player.speed;
+//			} else if (touchPos.y > player.getY() + 150) {
+//				player.velocity.y = player.speed;
+//			} else if (touchPos.y < player.getY() - 150 + 32) {
+//				player.velocity.y = -player.speed;
+//			}
+//		}else {
+//			player.velocity.x = 0;
+//			player.velocity.y = 0;
+//		}
+//	}
+//
 
 
 	@Override

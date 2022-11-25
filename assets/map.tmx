@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="68" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#372e5e" nextlayerid="17" nextobjectid="19">
  <tileset firstgid="1" source="coll2.tsx"/>
- <tileset firstgid="21" name="tilemapimage2" tilewidth="32" tileheight="32" tilecount="4096" columns="64">
-  <image source="tilemapimage2.png" width="2048" height="2048"/>
- </tileset>
- <tileset firstgid="4117" source="tilemap-eximage2.tsx"/>
  <imagelayer id="10" name="Home">
   <image source="map.png" width="3840" height="2160"/>
  </imagelayer>

@@ -7,35 +7,45 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 
-import java.util.Arrays;
 
-import javax.swing.border.StrokeBorder;
-
-
-public class NovellaScreen implements Screen {
+public class NovellaBegin implements Screen {
     private OrthographicCamera camera;
     private SpriteBatch batch;
     final Game game;
     BitmapFont font;
     Music clickSound;
     boolean end = false;
+    TextureRegion back;
+    Texture backTex;
     String[] StringArray = {
-            "Вы когда-нибудь задумывались о важных вещах в вашей жизни? ",
-            "Теряли что-нибудь? ",
-            "Что вы делали, если не находили какую-то деталь или предмет? ",
-            "Думаю, даже самые маленькие вещи имеют большой смысл в жизни. ",
-            "Но некоторые люди от плохой судьбы теряют друзей, семью и близких... ",
-            "Этому и наша поучительная история. ",
-            "Всегда, и только всегда, берегите абсолютно всё в вашей жизни. ",
-            "Для вас это небольшая страница в жизни, ",
-            "А для кого-то – целая жизнь. "
+            "Поздний вечер. ", // 0 кадр 0.1
+            "Уже давно пора было готовиться ко сну. ", // 1
+            "Но работа иногда наваливается, что приходиться сбивать режим. ", // 2
+            "Остаётся только пытаться остаться с гармонией наедине. ", // 3
+            //
+            "«Да уж. Поздновато.» ", // 4 кадр 0.2
+            "*внезапное шуршание* ", // 5
+            "– Мяу? Мурк! ", // 6
+            //
+            "– Уже проснулся ", // 7 кадр 0.3
+            //
+            "*мурчание* ",// 8 кадр 0.4
+            //
+            "– Идём, Марси, у нас сегодня на ужин курочка, как ты любишь. ",// 9 кадр 0.5
+            //
+            " ", // 10 кадр 0.6
+            " ", // 11 кадр 0.7
+
             };
     int page = 0;
-    int startY = Gdx.graphics.getWidth()-880;
+    int startY = 100;
     int startX = 25;
     boolean paused = false;
     StringBuffer strBuffer;
@@ -48,22 +58,25 @@ public class NovellaScreen implements Screen {
     @Override
     public void show() {
     }
-    public NovellaScreen(final Game game) {
+    public NovellaBegin(final Game game) {
         this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false,1280,720);
         clickSound = Gdx.audio.newMusic(Gdx.files.internal("music/clickSound.mp3"));
+        backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.1.png"));
+        back = new TextureRegion(backTex, 0 , 0,1280,720);
 
     }
     @Override
     public void render(float deltaTime) {
-
         font = game.getFont();
+        font.setColor(Color.WHITE);
         Matrix4 normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch = new SpriteBatch();
         batch.setProjectionMatrix(normalProjection);
         batch.begin();
         if (page < StringArray.length) {
+            batch.draw(back,0,0);
             timer += deltaTime;
             strBuffer = new StringBuffer(StringArray[page]);
             if (timer >= letterSpawnTime) {
@@ -77,9 +90,11 @@ public class NovellaScreen implements Screen {
             }
             if (!end){
                 font.draw(batch, drawText, startX, startY);
-                clickSound.play();
-                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                //clickSound.play();
+            }else {
+                font.draw(batch,strBuffer,startX,startY);
             }
+
             if (end) {
                 clickSound.pause();
                 if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) | Gdx.input.isTouched()) {
@@ -87,24 +102,30 @@ public class NovellaScreen implements Screen {
                     page++;
                     stringIndex = 0;
                     drawText = "";
-                    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
                     end = false;
                     if (page == StringArray.length){
-                        game.setScreen(new NovellaBegin(game));
+                        game.setScreen(new GameScreen());
                     }
                 }
             }
             batch.flush();
         }
         switch (page){
-            case 6:
-                font.setColor(Color.PURPLE);
+            case 4:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.2.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 7:
-                font.setColor(Color.WHITE);
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.3.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
-            case 8:
-                font.setColor(Color.RED);
+            case 9:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.4.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 11:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.1.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
         }
         batch.end();
@@ -115,8 +136,6 @@ public class NovellaScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        startY = Gdx.graphics.getWidth()/3;
-        startX = 150;
     }
     @Override
     public void pause() {

@@ -30,7 +30,6 @@ class GameScreen implements Screen {
 	private Vector3 touchPos;
 	private Texture currentFrameTime;
 	private int frameCount = 0;
-	private int frame;
 	float timer = 0;
 	float letterSpawnTime = .1f;
 

@@ -14,7 +14,7 @@ public class Game extends com.badlogic.gdx.Game {
 
     public void create() {
         Matrix4 normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
-
+        //Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         batch = new SpriteBatch();
         batch.setProjectionMatrix(normalProjection);
         font = new BitmapFont();
@@ -23,13 +23,13 @@ public class Game extends com.badlogic.gdx.Game {
         param.size = 20;
         param.borderColor = Color.BLACK;
         param.borderWidth = 2;
-        String FONT_CHARACTERS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-[];:.,/?!&";
+        String FONT_CHARACTERS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*–-[];:.,/«»?!&";
         param.characters = FONT_CHARACTERS;
         font = generator.generateFont(param);
         font.setColor(Color.WHITE);
 
         generator.dispose();
-        setScreen(new GameScreen());
+        setScreen(new Menu(this));
     }
 
     public void render() {

@@ -3,12 +3,16 @@ package com.mygdx.game;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
-// Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
 	public static void main (String[] args) {
 		Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
-		cfg.setTitle("Catch kittens");
-		cfg.setWindowedMode(1440,736);
-		new Lwjgl3Application(new Drop(), cfg);
+		cfg.setTitle("The Lost Happiness");
+		cfg.setWindowIcon("Person.jpg");
+		cfg.setForegroundFPS(144);
+		cfg.setIdleFPS(144);
+		cfg.useVsync(true);
+		cfg.setResizable(false);
+		cfg.setWindowedMode(1280,720);
+		new Lwjgl3Application(new Game(), cfg);
 	}
 }

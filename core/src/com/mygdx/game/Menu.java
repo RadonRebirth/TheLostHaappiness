@@ -75,7 +75,7 @@ public class Menu implements Screen {
         button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                game.setScreen(new NovellaScreen(game));
+                game.setScreen(new OwlQuestions(game));
                 dispose();
             }
         });
@@ -141,9 +141,9 @@ public class Menu implements Screen {
         else {
             i=0;
         }
+
         game.batch.draw(currentMenu,0,0);
         game.batch.end();
-
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 

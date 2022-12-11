@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
@@ -18,24 +19,20 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class OwlQuestions implements Screen {
-    private OrthographicCamera camera;
-    private Stage stage;
-    private Texture myTexture;
-    private TextureRegion myTextureRegion;
-    private TextureRegionDrawable myTexRegionDrawable;
+    private final Stage stage;
     private SpriteBatch batch;
-    private ImageButton button;
-    private ImageButton button2;
-    private ImageButton button3;
-    private ImageButton button4;
-    private ImageButton button5;
-    private ImageButton button6;
-    private ImageButton button7;
-    private ImageButton button8;
-    private ImageButton button9;
-    private ImageButton button10;
-    private ImageButton button11;
-    private ImageButton button12;
+    private final ImageButton button;
+    private final ImageButton button2;
+    private final ImageButton button3;
+    private final ImageButton button4;
+    private final ImageButton button5;
+    private final ImageButton button6;
+    private final ImageButton button7;
+    private final ImageButton button8;
+    private final ImageButton button9;
+    private final ImageButton button10;
+    private final ImageButton button11;
+    private final ImageButton button12;
     final Game game;
     BitmapFont font;
     Music clickSound;
@@ -45,7 +42,8 @@ public class OwlQuestions implements Screen {
             "Что любит ваш котёнок? ",
             "Кто вы? ",
             "Как зовут вашего котёнка? ",
-            "Ура!! ура!! вы ответили на все вопросы правильно!! "
+            "Мне очень жаль, что тебе пришлось потерять своего друга. ",
+            "Пойдём, я покажу тебе надёжную дорогу. "
             };
     int page = 0;
     int startY = 200;
@@ -63,11 +61,11 @@ public class OwlQuestions implements Screen {
     }
     public OwlQuestions(final Game game) {
         this.game = game;
-        camera = new OrthographicCamera();
+        OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(false,1280,720);
-        myTexture = new Texture(Gdx.files.internal("menu/buttons/button_start.png"));
-        myTextureRegion = new TextureRegion(myTexture);
-        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        Texture myTexture = new Texture(Gdx.files.internal("menu/buttons/button_start.png"));
+        TextureRegion myTextureRegion = new TextureRegion(myTexture);
+        TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         button = new ImageButton(myTexRegionDrawable);
         button2 = new ImageButton(myTexRegionDrawable);
         button3 = new ImageButton(myTexRegionDrawable);
@@ -99,6 +97,17 @@ public class OwlQuestions implements Screen {
         Gdx.input.setInputProcessor(stage);
 
     }
+    public void nextQuest(){
+        if(end) {
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            resume();
+            page++;
+            stringIndex = 0;
+            drawText = "";
+            end = false;
+            stage.clear();
+        }
+    }
     @Override
     public void render(float deltaTime) {
 
@@ -129,9 +138,6 @@ public class OwlQuestions implements Screen {
             }
             if (end) {
                 stage.draw();
-                if (page == StringArray.length){
-                    //game.setScreen(new NovellaBegin(game));
-                }
             }
             batch.flush();
         }
@@ -152,15 +158,7 @@ public class OwlQuestions implements Screen {
                 button3.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        if(end) {
-                            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-                            resume();
-                            page++;
-                            stringIndex = 0;
-                            drawText = "";
-                            end = false;
-                            stage.clear();
-                        }
+                        nextQuest();
                     }
                 });
                 break;
@@ -177,15 +175,7 @@ public class OwlQuestions implements Screen {
                 button5.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        if(end) {
-                            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-                            resume();
-                            page++;
-                            stringIndex = 0;
-                            drawText = "";
-                            end = false;
-                            stage.clear();
-                        }
+                        nextQuest();
                     }
                 });
                 button6.addListener(new ClickListener() {
@@ -214,15 +204,7 @@ public class OwlQuestions implements Screen {
                 button9.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        if(end) {
-                            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-                            resume();
-                            page++;
-                            stringIndex = 0;
-                            drawText = "";
-                            end = false;
-                            stage.clear();
-                        }
+                        nextQuest();
                     }
                 });
                 break;
@@ -245,28 +227,28 @@ public class OwlQuestions implements Screen {
                 button12.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        if(end) {
-                            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-                            resume();
-                            page++;
-                            stringIndex = 0;
-                            drawText = "";
-                            end = false;
-                            stage.clear();
-                        }
+                        nextQuest();
                     }
                 });
                 break;
             case 4:
+            case 5:
                 stage.clear();
+                if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) | Gdx.input.isTouched()) {
+                    resume();
+                    page++;
+                    stringIndex = 0;
+                    drawText = "";
+                    end = false;
+                }
+                break;
+            case 6:
+                game.setScreen(new GameScreen());
                 break;
         }
         batch.end();
 
     }
-    private static void update(float deltaTime) {
-    }
-
     @Override
     public void resize(int width, int height) {
         startY = Gdx.graphics.getWidth()/3;

@@ -5,10 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -16,7 +14,6 @@ import com.badlogic.gdx.math.Matrix4;
 
 
 public class NovellaBegin implements Screen {
-    private OrthographicCamera camera;
     private SpriteBatch batch;
     final Game game;
     BitmapFont font;
@@ -60,7 +57,7 @@ public class NovellaBegin implements Screen {
     }
     public NovellaBegin(final Game game) {
         this.game = game;
-        camera = new OrthographicCamera();
+        OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(false,1280,720);
         clickSound = Gdx.audio.newMusic(Gdx.files.internal("music/clickSound.mp3"));
         backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.1.png"));
@@ -131,9 +128,6 @@ public class NovellaBegin implements Screen {
         batch.end();
 
     }
-    private static void update(float deltaTime) {
-    }
-
     @Override
     public void resize(int width, int height) {
     }

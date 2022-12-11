@@ -11,13 +11,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 
-import java.util.Arrays;
-
-import javax.swing.border.StrokeBorder;
 ///
 
 public class NovellaScreen implements Screen {
-    private OrthographicCamera camera;
     private SpriteBatch batch;
     final Game game;
     BitmapFont font;
@@ -50,7 +46,7 @@ public class NovellaScreen implements Screen {
     }
     public NovellaScreen(final Game game) {
         this.game = game;
-        camera = new OrthographicCamera();
+        OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(false,1280,720);
         clickSound = Gdx.audio.newMusic(Gdx.files.internal("music/clickSound.mp3"));
 
@@ -110,9 +106,6 @@ public class NovellaScreen implements Screen {
         batch.end();
 
     }
-    private static void update(float deltaTime) {
-    }
-
     @Override
     public void resize(int width, int height) {
         startY = Gdx.graphics.getWidth()/3;

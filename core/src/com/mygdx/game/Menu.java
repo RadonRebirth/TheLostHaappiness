@@ -6,30 +6,17 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import java.awt.Button;
-
-import jdk.jfr.internal.Options;
-import sun.print.BackgroundLookupListener;
-
 public class Menu implements Screen {
-
-    TextureRegion Texture;
     OrthographicCamera camera;
-    SpriteBatch spriteBatch;
     Texture[] menuBackgroundArray;
     Array<Background> animalsDrops;
     Texture menu1;
@@ -53,21 +40,16 @@ public class Menu implements Screen {
     Music musicmenu;
     Game game;
 
-    private Stage stage;
-    private Stage stage2;
-    private Texture myTexture;
-    private Texture myTexture2;
-    private TextureRegion myTextureRegion;
-    private TextureRegionDrawable myTexRegionDrawable;
-    private ImageButton button;
+    private final Stage stage;
+    private final Stage stage2;
 
     public Menu(Game gam) {
         game = gam;
 
-        myTexture = new Texture(Gdx.files.internal("menu/buttons/button_start.png"));
-        myTextureRegion = new TextureRegion(myTexture);
-        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
-        button = new ImageButton(myTexRegionDrawable);
+        com.badlogic.gdx.graphics.Texture myTexture = new Texture(Gdx.files.internal("menu/buttons/button_start.png"));
+        TextureRegion myTextureRegion = new TextureRegion(myTexture);
+        TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        ImageButton button = new ImageButton(myTexRegionDrawable);
         button.setPosition(400,520);
         stage = new Stage(new ScreenViewport());
         stage.addActor(button);
@@ -75,12 +57,12 @@ public class Menu implements Screen {
         button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                game.setScreen(new OwlQuestions(game));
+                game.setScreen(new GameScreen());
                 dispose();
             }
         });
 
-        myTexture2 = new Texture(Gdx.files.internal("menu/buttons/button_exit.png"));
+        com.badlogic.gdx.graphics.Texture myTexture2 = new Texture(Gdx.files.internal("menu/buttons/button_exit.png"));
         myTextureRegion = new TextureRegion(myTexture2);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         button = new ImageButton(myTexRegionDrawable);

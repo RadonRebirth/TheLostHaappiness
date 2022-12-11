@@ -75,7 +75,7 @@ public class Menu implements Screen {
         button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                game.setScreen(new NovellaScreen(game));
+                game.setScreen(new Chase(game));
                 dispose();
             }
         });

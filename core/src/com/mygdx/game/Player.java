@@ -70,6 +70,7 @@ public class Player extends Sprite implements InputProcessor {
         } else {
             wasCollideY = false;
         }
+
     }
 
 

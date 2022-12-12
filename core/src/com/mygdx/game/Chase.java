@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.Input;
@@ -17,26 +18,32 @@ import java.util.TimerTask;
 
 public class Chase implements Screen {
     final Game game;
+    OrthographicCamera camera;
+    private Vector3 touchPos;
 
     Texture playerT;
     Texture puddleT;
-
-    OrthographicCamera camera;
-    Rectangle playerR;
-    Array<Rectangle> puddles;
-    long lastDropTime;
-    int lives = 5;
-
     private Texture[] framesUp;
     Texture frame1;
     Texture frame2;
     Texture frame3;
     Texture frame4;
-
     private Texture currentFrameTime;
+
     private int frameCount = 0;
     float timer = 0;
     float letterSpawnTime = .1f;
+
+    Array<Rectangle> puddles;
+    Rectangle playerR;
+    long lastDropTime;
+
+    int lives = 3;
+    int puddlesCounter = 30;
+
+    int position = 1;
+    boolean isUpA = true;
+    boolean isUpB = true;
 
     public Chase(final Game game) {
         this.game = game;
@@ -48,24 +55,23 @@ public class Chase implements Screen {
         camera.setToOrtho(false, 1280, 720);
 
         playerR = new Rectangle();
-        playerR.x = 1280 / 2 - 64 / 2;
+        playerR.x = 1280 / 2 - 32 / 2;
         playerR.y = 20;
-        playerR.width = 64;
+        playerR.width = 32;
         playerR.height = 64;
 
         puddles = new Array<>();
 
         spawnRaindrop();
-
     }
 
     private void spawnRaindrop() {
         Rectangle puddle = new Rectangle();
 
-        puddle.x = random(0, 1280 - 32);
-        puddle.y = 720;
         puddle.width = 32;
         puddle.height = 32;
+        puddle.x = (320 - puddle.width / 2) + 320 * random(0, 2);
+        puddle.y = 720;
 
         puddles.add(puddle);
         lastDropTime = TimeUtils.nanoTime();
@@ -84,7 +90,9 @@ public class Chase implements Screen {
                 frame2 = new Texture(Gdx.files.internal("data/Animation/WalkUp/u2.png")),
                 frame3 = new Texture(Gdx.files.internal("data/Animation/WalkUp/u3.png")),
                 frame4 = new Texture(Gdx.files.internal("data/Animation/WalkUp/u4.png"))};
+
         timer += delta;
+
         if (timer >= letterSpawnTime) {
             if (frameCount < framesUp.length) {
                 currentFrameTime = framesUp[frameCount];
@@ -95,44 +103,82 @@ public class Chase implements Screen {
             }
             timer -= letterSpawnTime;
         }
+
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-
         game.font.draw(game.batch, "Жизни: " + lives, 0, 720);
         game.batch.draw(playerT, playerR.x, playerR.y);
+
         for (Rectangle rectangle : puddles) {
             game.batch.draw(puddleT, rectangle.x, rectangle.y);
         }
+
         game.batch.end();
         camera.update();
-        //1
-        //TODO Здесь реализовать управление на телефоне
-        if (Gdx.input.isKeyPressed(Input.Keys.A))
-            playerR.x -= 200 * Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(Input.Keys.D))
-            playerR.x += 200 * Gdx.graphics.getDeltaTime();
 
-        if (playerR.x < 0)
-            playerR.x = 0;
-        if (playerR.x > 1280 - 64)
-            playerR.x = 1280 - 64;
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && !(position == 0) && isUpA){
+            position--;
+            playerR.x -= 320;
+            isUpA = false;
+        }else {
+            isUpA = true;
+        }
 
-        if (TimeUtils.nanoTime() - lastDropTime > 1000000000)
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && !(position == 2) && isUpB){
+            position++;
+            playerR.x += 320;
+            isUpB = false;
+        }else {
+            isUpB = true;
+        }
+
+        if (Gdx.input.isTouched()) {
+            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(touchPos);
+            if (touchPos.x < 200 && !(position == 0) && isUpA) {
+                position--;
+                playerR.x -= 320;
+                isUpA = false;
+            }else {
+                isUpA = true;
+            }
+
+            if (touchPos.x > 1080 && !(position == 2) && isUpB) {
+                position++;
+                playerR.x += 320;
+                isUpB = false;
+            }else {
+                isUpB = true;
+            }
+        }
+
+        camera.update();
+
+        if (TimeUtils.nanoTime() - lastDropTime > 1000000000 && puddlesCounter != 0) {
             spawnRaindrop();
+            puddlesCounter--;
+        }
+
+        if(puddlesCounter == 0){
+            //TODO Ревлизоать то, что будет при победе
+        }
 
         Iterator<Rectangle> iter = puddles.iterator();
         while (iter.hasNext()) {
             Rectangle puddle = iter.next();
             puddle.y -= 400 * Gdx.graphics.getDeltaTime();
             if (puddle.y + 32 < 0) {
+                puddlesCounter--;
+                iter.remove();
+            }
+
+            if (puddle.overlaps(playerR)) {
                 lives--;
                 iter.remove();
             }
+
             if(lives==0){
                 //TODO Здесь реализовать, то что должно быть при проигрыше
-            }
-            if (puddle.overlaps(playerR)) {
-                iter.remove();
             }
         }
         camera.update();
@@ -144,14 +190,7 @@ public class Chase implements Screen {
 
     @Override
     public void show() {
-        Timer myTimer;
-        myTimer = new Timer();
 
-        myTimer.schedule(new TimerTask() {
-            public void run() {
-                timerTick();
-            }
-        }, 0, 5000); //TODO Установить нужно время(сейчас 5 сек)
     }
 
     @Override
@@ -170,13 +209,5 @@ public class Chase implements Screen {
     public void dispose() {
         playerT.dispose();
         puddleT.dispose();
-    }
-
-    private void timerTick() {
-        this.runOnUiThread();
-    }
-
-    private void runOnUiThread() {
-        //TODO Тут должно быть написано то, что долно произойти по истечению времени
     }
 }

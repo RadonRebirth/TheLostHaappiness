@@ -96,7 +96,7 @@ public class NovellaFinal implements Screen {
             "– The lost Happiness. ",
 "Конец. " // 4
 };
-    int page = 30;
+    int page = 0;
     int startY = 100;
     int startX = 25;
     boolean paused = false;

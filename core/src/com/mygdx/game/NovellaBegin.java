@@ -100,11 +100,20 @@ public class NovellaBegin implements Screen {
     //Кадр 1.11: черный экран.
             "«Что-то голова кружится.» ", // 60
     //грустная музыка - конец
-    //Кадр 1.12: на черном экране белая полоска, как будто кто-то поскальзывается (ОБЯЗАТЕЛЬНАЯ АНИМАЦИЯ ИЛИ ВИДЕО), как взмах кистью ну, объясню на примере сама в ирл лайф как на паре будем.
-            "– Ой! " // 61  звук упал в воду
+            "– Ой! ", // 61  звук упал в воду
+           // Кадр 2.1: сумеречный лес.
+            "– Какой ужас. ", //62
+            "«Одежда промокла.» ",
+            "ГГ – Что сегодня за день такой?! ",
+    //Кадр 2.2:
+            "– Что это за место? ", // 63
+    //Кадр 2.3:
+            "– Где я вообще?! ", // 64
+            "«Я ничего не понимаю.» ",
+            "– Помогите! " // 66
 
 };
-    int page = 34;
+    int page = 60;
     int startY = 100;
     int startX = 25;
     boolean paused = false;
@@ -235,6 +244,18 @@ public class NovellaBegin implements Screen {
                 break;
             case 54:
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.10.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 62:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 Глава/2.1.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 63:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 Глава/2.2.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 64:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 Глава/2.3.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
         }

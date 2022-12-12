@@ -65,7 +65,7 @@ class GameScreen implements Screen {
 
 		if(playerX< 3600 && playerX > 3400 ) {
 			if (playerY< 80 && playerY > 60) {
-				game.setScreen(new NovellaScreen(game));
+				game.setScreen(new NovellaSecondChapter(game));
 			}
 		}
 		framesUp = new Texture[]{

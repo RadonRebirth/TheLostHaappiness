@@ -19,7 +19,7 @@ import java.util.Iterator;
 
 public class Ingredients implements Screen {
 
-    final Game gameC;
+    final Game game;
     Texture AppleImage;
     Texture ConeImage;
     Texture PepperImage;
@@ -29,9 +29,7 @@ public class Ingredients implements Screen {
     Texture[] DropArray;
 
     TextureRegion backgroundTexture;
-
-
-
+    
     OrthographicCamera camera;
     SpriteBatch batch;
     Rectangle ggk;
@@ -42,7 +40,7 @@ public class Ingredients implements Screen {
 
 
     public Ingredients(final Game game) {
-        this.gameC = game;
+        this.game = game;
 
         ConeImage = new Texture(Gdx.files.internal("img/cone.png"));
         gg = new Texture(Gdx.files.internal("img/gg anim1.png"));
@@ -103,16 +101,16 @@ public class Ingredients implements Screen {
     }
     public void render(float delta){
         camera.update();
-        gameC.batch.setProjectionMatrix(camera.combined);
-        gameC.batch.begin();
-        gameC.batch.draw(backgroundTexture, 0, 0);
-        gameC.font.draw(gameC.batch, "Cone: " + dropsGathered, 600, 670);
-        gameC.batch.draw(gg,ggk.x,ggk.y);
+        game.batch.setProjectionMatrix(camera.combined);
+        game.batch.begin();
+        game.batch.draw(backgroundTexture, 0, 0);
+        game.font.draw(game.batch, "Cone: " + dropsGathered, 600, 670);
+        game.batch.draw(gg,ggk.x,ggk.y);
 
         for(TreeDrop elemdrop: treesDrops) {
-            gameC.batch.draw(DropArray[elemdrop.type], elemdrop.rectangle.x, elemdrop.rectangle.y);
+            game.batch.draw(DropArray[elemdrop.type], elemdrop.rectangle.x, elemdrop.rectangle.y);
         }
-        gameC.batch.end();
+        game.batch.end();
 
         if(Gdx.input.isTouched()){
             Vector3 touchPos = new Vector3();
@@ -139,7 +137,7 @@ public class Ingredients implements Screen {
                     iter.remove();
                 }
                 if(animDrop.type !=0){
-                    // Проиграл
+                    game.setScreen(new IngredientsIncorrect(game));
                     iter.remove();
                 }
             }
@@ -155,7 +153,7 @@ public class Ingredients implements Screen {
                 speed = 500;
                 break;
             case 20:
-                //Выиграл
+                game.setScreen(new NovellaFinal(game));
                 break;
         }
     }

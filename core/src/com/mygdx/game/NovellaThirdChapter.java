@@ -141,7 +141,7 @@ public class NovellaThirdChapter implements Screen {
 //    звук падения предмета – op.wav
 
 };
-    int page = 9;
+    int page = 0;
     int startY = 100;
     int startX = 25;
     boolean paused = false;
@@ -159,7 +159,7 @@ public class NovellaThirdChapter implements Screen {
         this.game = game;
         OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(false,1280,720);
-        filin = Gdx.audio.newMusic(Gdx.files.internal("music/clickSound.mp3"));
+        filin = Gdx.audio.newMusic(Gdx.files.internal("music/claviature.mp3"));
         backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.1.png"));
         back = new TextureRegion(backTex, 0 , 0,1280,720);
 
@@ -201,7 +201,7 @@ public class NovellaThirdChapter implements Screen {
                     drawText = "";
                     end = false;
                     if (page == StringArray.length){
-                        game.setScreen(new OwlQuestions(game));
+                        game.setScreen(new Ingredients(game));
                     }
                 }
             }

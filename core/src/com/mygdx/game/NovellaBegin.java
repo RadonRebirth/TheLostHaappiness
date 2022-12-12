@@ -113,7 +113,7 @@ public class NovellaBegin implements Screen {
             "– Помогите! " // 66
 
 };
-    int page = 60;
+    int page = 0;
     int startY = 100;
     int startX = 25;
     boolean paused = false;

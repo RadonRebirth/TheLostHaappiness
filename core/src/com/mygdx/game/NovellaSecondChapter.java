@@ -87,7 +87,7 @@ public class NovellaSecondChapter implements Screen {
             "[ФИЛИН] – Сначала ответь мне на пару вопросов. " // 48
 
 };
-    int page = 48;
+    int page = 0;
     int startY = 100;
     int startX = 25;
     boolean paused = false;

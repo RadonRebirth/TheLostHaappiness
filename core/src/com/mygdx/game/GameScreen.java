@@ -80,10 +80,21 @@ class GameScreen implements Screen {
 				frame6 = new Texture(Gdx.files.internal("data/Animation/WalkRight/r6.png"))};
 
 
-
+		float h = camera.viewportWidth;
+		float w = camera.viewportHeight;
 		playerX = player.getX();
 		playerY = player.getY();
-		camera.position.set(player.getX(), player.getY(), 0);
+		camera.position.set(playerX, playerY, 0);
+		if (camera.position.x < w - 8) {
+			camera.position.x = w - 8;
+		} else if (camera.position.x > 3840 - w) {
+			camera.position.x = 3840 - w;
+		}
+		if (camera.position.y < h / 3) {
+			camera.position.y = h / 3;
+		} else if (camera.position.y > h - h / 3 + 2160) {
+			camera.position.y = h - h / 3 + 2160;
+		}
 		camera.update();
 		renderer.setView(camera);
 		renderer.render();

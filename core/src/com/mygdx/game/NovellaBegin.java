@@ -41,16 +41,70 @@ public class NovellaBegin implements Screen {
             "«И я пустила его домой.» ",
             "«С тех пор мы живём вместе.» ",
             "«За время я привязалась, очень сильно.» ", // 17 Кадр 0.5
-            "«Это был единственный друг, который выручал меня в одинокие вечера.» ",
-            "... ", // 18 кадр 0.6
-            "«Завтра нужно будет заняться делами.» ", // 19 кадр 0.1
+            "«Это был единственный друг, который выручал меня в одинокие вечера.» ",// 18
+            "... ", // 19 кадр 0.6
+            "«Завтра нужно будет заняться делами.» ", // 20 кадр 0.1
             "– Спокойной ночи, Марси. ",
             "– Мурк! ",
-            "*спокойное мурчание*  ", // 22
+            "*спокойное мурчание*  ", // 23
             ////////// Глава 1
-            " "
-            };
-    int page = 0;
+           // Кадр 1.1: окно, утро.
+	"Порой есть в мире обыденные вещи, которые очень необходимы в такие моменты. ", // 24
+	"Просыпаться в уютном доме не одному, что даёт тебе силы и мотивацию. ",
+	"Это желание вполне себе привычное, но всё же достаётся не всем. ",
+            	"– Почему так тихо? ", // - ГГ
+                " – Марси? ",
+            	"«Непонятно.» ",
+                "Марси, кис-кис, ты куда убежала? ",
+            // Кадр 1.2: кухня персонажа.
+            	"– Никого. ", // 31
+            //Кадр 1.3: гостиная персонажа.
+                "– И тут тоже. ", // 32
+                "– Куда она делась? ",
+            //звук утра – 40%
+            //Кадр 1.4: изображения дома гг, но уже днём.
+    "Иногда спонтанные вещи, которые случаются в вашей жизни. ", // 34
+	"Могут кардинально изменить её. ",
+            "«Нужно спросить у соседей. Может, убежала.» ",
+            //Кадр 1.5: изображение домов других со стороны.
+    "– Здравствуйте, а вы не видели моего котёнка? ", // 37
+            "– С жёлтым ошейником. ",
+	"– ... ",
+        "– Может вы его во дворе видели? ",
+            "–... ",
+            "– Понятно, спасибо. ",
+            //Кадр 1.6: изображение домов других со стороны.
+        "– Извините, не видели котёнка? ", // 43
+        "– С жёлтым ошейником. ",
+    "– … ",
+        "– Понятно, спасибо. ",
+            //звук утра – конец
+            //грустная музыка – 100%
+            //Кадр 1.7: персонаж на тёмном фоне, с закрытыми глазами.
+            "Весь выходной прошёл в волнении. ", // 47
+            "Каждая дверь – новый отказ. ",
+            "И каждые слова: «Нет, мы не видели вашего котёнка.» ",
+    //Кадр 1.8: персонаж на тёмном фоне, с открытыми глазами.
+            "Весь выходной. ", //50
+            "Целый день без него. ",
+    //Кадр 1.9:  лес, уже темнеет, можно лучи от солнца.
+	"«Может к пруду убежал.» ", // 52
+            "Иногда даже давно знакомые места могут представлять опасность. ",
+   // Кадр 1.10: пруд.
+    "– Марси! ", // 54
+    "– Кис-кис-кис! ",
+    "– Марси. ",
+    "– Марси… ",
+    "«Похоже, всё потерянно.» ",
+    "«Я никогда не смогу её найти.» ",
+    //Кадр 1.11: черный экран.
+            "«Что-то голова кружится.» ", // 60
+    //грустная музыка - конец
+    //Кадр 1.12: на черном экране белая полоска, как будто кто-то поскальзывается (ОБЯЗАТЕЛЬНАЯ АНИМАЦИЯ ИЛИ ВИДЕО), как взмах кистью ну, объясню на примере сама в ирл лайф как на паре будем.
+            "– Ой! " // 61  звук упал в воду
+
+};
+    int page = 34;
     int startY = 100;
     int startX = 25;
     boolean paused = false;
@@ -130,7 +184,7 @@ public class NovellaBegin implements Screen {
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 10:
-            case 19:
+            case 20:
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.1.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
@@ -138,8 +192,52 @@ public class NovellaBegin implements Screen {
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.5.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
-            case 18:
+            case 19:
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.6.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 24:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.1.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 31:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.2.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 32:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.3.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 34:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.0.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 37:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.5.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 43:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.6.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 47:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.7.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 50:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.8.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 52:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.9.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 54:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.10.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 60:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.0.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
         }

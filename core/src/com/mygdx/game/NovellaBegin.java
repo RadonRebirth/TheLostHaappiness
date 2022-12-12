@@ -164,7 +164,7 @@ public class NovellaBegin implements Screen {
                     drawText = "";
                     end = false;
                     if (page == StringArray.length){
-                        game.setScreen(new GameScreen());
+                        game.setScreen(new GameScreen(game));
                     }
                 }
             }

@@ -255,7 +255,7 @@ public class OwlQuestions implements Screen {
                 }
                 break;
             case 6:
-                game.setScreen(new GameScreen());
+                game.setScreen(new GameScreen(game));
                 break;
         }
         batch.end();

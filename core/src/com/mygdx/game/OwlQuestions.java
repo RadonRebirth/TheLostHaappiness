@@ -234,12 +234,14 @@ public class OwlQuestions implements Screen {
             case 4:
             case 5:
                 stage.clear();
-                if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) | Gdx.input.isTouched()) {
-                    resume();
-                    page++;
-                    stringIndex = 0;
-                    drawText = "";
-                    end = false;
+                if (end) {
+                    if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) | Gdx.input.isTouched()) {
+                        resume();
+                        page++;
+                        stringIndex = 0;
+                        drawText = "";
+                        end = false;
+                    }
                 }
                 break;
             case 6:

@@ -46,8 +46,8 @@ public class OwlQuestions implements Screen {
             "Пойдём, я покажу тебе надёжную дорогу. "
             };
     int page = 0;
-    int startY = 200;
-    int startX = 25;
+    int startY = 440;
+    int startX = 100;
     boolean paused = false;
     StringBuffer strBuffer;
 
@@ -55,6 +55,8 @@ public class OwlQuestions implements Screen {
     float timer = 0;
     int stringIndex = 0;
     String drawText = "";
+    TextureRegion back;
+    Texture backTex;
 
     @Override
     public void show() {
@@ -63,38 +65,46 @@ public class OwlQuestions implements Screen {
         this.game = game;
         OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(false,1280,720);
-        Texture myTexture = new Texture(Gdx.files.internal("menu/buttons/button_start.png"));
+        Texture myTexture = new Texture(Gdx.files.internal("data/Backgrounds/2 глава/buttons/button_gray.png"));
+        Texture myTexture2 = new Texture(Gdx.files.internal("data/Backgrounds/2 глава/buttons/button_white.png"));
+        Texture myTexture3 = new Texture(Gdx.files.internal("data/Backgrounds/2 глава/buttons/button_3color.png"));
         TextureRegion myTextureRegion = new TextureRegion(myTexture);
+        TextureRegion myTextureRegion2 = new TextureRegion(myTexture2);
+        TextureRegion myTextureRegion3 = new TextureRegion(myTexture3);
         TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        TextureRegionDrawable myTexRegionDrawable2 = new TextureRegionDrawable(myTextureRegion2);
+        TextureRegionDrawable myTexRegionDrawable3 = new TextureRegionDrawable(myTextureRegion3);
         button = new ImageButton(myTexRegionDrawable);
-        button2 = new ImageButton(myTexRegionDrawable);
-        button3 = new ImageButton(myTexRegionDrawable);
-        button.setPosition(100,220);
-        button2.setPosition(450,220);
-        button3.setPosition(800,220);
+        button2 = new ImageButton(myTexRegionDrawable2);
+        button3 = new ImageButton(myTexRegionDrawable3);
+        button.setPosition(42,263);
+        button2.setPosition(42,176);
+        button3.setPosition(42,93);
         button4 = new ImageButton(myTexRegionDrawable);
         button5 = new ImageButton(myTexRegionDrawable);
         button6 = new ImageButton(myTexRegionDrawable);
-        button4.setPosition(100,220);
-        button5.setPosition(450,220);
-        button6.setPosition(800,220);
+        button4.setPosition(42,263);
+        button5.setPosition(42,176);
+        button6.setPosition(42,93);
         button7 = new ImageButton(myTexRegionDrawable);
         button8 = new ImageButton(myTexRegionDrawable);
         button9 = new ImageButton(myTexRegionDrawable);
-        button7.setPosition(100,220);
-        button8.setPosition(450,220);
-        button9.setPosition(800,220);
+        button7.setPosition(42,263);
+        button8.setPosition(42,176);
+        button9.setPosition(42,93);
         button10 = new ImageButton(myTexRegionDrawable);
         button11 = new ImageButton(myTexRegionDrawable);
         button12 = new ImageButton(myTexRegionDrawable);
-        button10.setPosition(100,220);
-        button11.setPosition(450,220);
-        button12.setPosition(800,220);
+        button10.setPosition(42,263);
+        button11.setPosition(42,176);
+        button12.setPosition(42,93);
         stage = new Stage(new ScreenViewport());
         stage.addActor(button);
         stage.addActor(button2);
         stage.addActor(button3);
         Gdx.input.setInputProcessor(stage);
+        backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 глава/2.8.png"));
+        back = new TextureRegion(backTex, 0 , 0,1280,720);
 
     }
     public void nextQuest(){
@@ -116,8 +126,9 @@ public class OwlQuestions implements Screen {
         batch = new SpriteBatch();
         batch.setProjectionMatrix(normalProjection);
         batch.begin();
-
+        batch.draw(back,0,0);
         if (page < StringArray.length) {
+            batch.draw(back,0,0);
             timer += deltaTime;
             strBuffer = new StringBuffer(StringArray[page]);
             if (timer >= letterSpawnTime) {
@@ -132,7 +143,6 @@ public class OwlQuestions implements Screen {
             if (!end){
                 font.draw(batch, drawText, startX, startY);
 
-                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             }else {
                 font.draw(batch,strBuffer,startX,startY);
             }
@@ -253,8 +263,6 @@ public class OwlQuestions implements Screen {
     }
     @Override
     public void resize(int width, int height) {
-        startY = Gdx.graphics.getWidth()/3;
-        startX = 150;
     }
     @Override
     public void pause() {

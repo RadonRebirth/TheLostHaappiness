@@ -69,14 +69,14 @@ public class NovellaBegin implements Screen {
             //Кадр 1.5: изображение домов других со стороны.
     "– Здравствуйте, а вы не видели моего котёнка? ", // 37
             "– С жёлтым ошейником. ",
-	"– ... ",
+	"– . . . ",
         "– Может вы его во дворе видели? ",
-            "–... ",
+            "– . . . ",
             "– Понятно, спасибо. ",
             //Кадр 1.6: изображение домов других со стороны.
         "– Извините, не видели котёнка? ", // 43
         "– С жёлтым ошейником. ",
-    "– … ",
+    "– . . . ",
         "– Понятно, спасибо. ",
             //звук утра – конец
             //грустная музыка – 100%
@@ -94,7 +94,7 @@ public class NovellaBegin implements Screen {
     "– Марси! ", // 54
     "– Кис-кис-кис! ",
     "– Марси. ",
-    "– Марси… ",
+    "– Марси... ",
     "«Похоже, всё потерянно.» ",
     "«Я никогда не смогу её найти.» ",
     //Кадр 1.11: черный экран.
@@ -209,6 +209,7 @@ public class NovellaBegin implements Screen {
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 34:
+            case 60:
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.0.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
@@ -234,10 +235,6 @@ public class NovellaBegin implements Screen {
                 break;
             case 54:
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.10.png"));
-                back = new TextureRegion(backTex, 0 , 0,1280,720);
-                break;
-            case 60:
-                backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.0.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
         }

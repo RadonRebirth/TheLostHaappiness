@@ -76,8 +76,6 @@ public class Menu implements Screen {
                 Gdx.app.exit();
             }
         });
-
-
         menuBackgroundArray = new Texture[] {
                 menu1 = new Texture(Gdx.files.internal("menu/menuanimation/1.png")),
                 menu2 = new Texture(Gdx.files.internal("menu/menuanimation/2.png")),
@@ -101,8 +99,6 @@ public class Menu implements Screen {
 
         musicmenu = Gdx.audio.newMusic(Gdx.files.internal("music/меню.mp3"));
         musicmenu.setLooping(true);
-
-
     }
 
     @Override

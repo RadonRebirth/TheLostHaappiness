@@ -55,7 +55,7 @@ public class Chase implements Screen {
         camera.setToOrtho(false, 1280, 720);
 
         playerR = new Rectangle();
-        playerR.x = 1280 / 2 - 32 / 2;
+        playerR.x = 400 + 200 - 16;
         playerR.y = 20;
         playerR.width = 32;
         playerR.height = 64;
@@ -70,7 +70,7 @@ public class Chase implements Screen {
 
         puddle.width = 32;
         puddle.height = 32;
-        puddle.x = (320 - puddle.width / 2) + 320 * random(0, 2);
+        puddle.x = 400 + (200 - 16) * random(0, 2);
         puddle.y = 720;
 
         puddles.add(puddle);
@@ -118,7 +118,7 @@ public class Chase implements Screen {
 
         if (Gdx.input.isKeyPressed(Input.Keys.A) && !(position == 0) && isUpA){
             position--;
-            playerR.x -= 320;
+            playerR.x -= (200 - 16);
             isUpA = false;
         }else {
             isUpA = true;
@@ -126,7 +126,7 @@ public class Chase implements Screen {
 
         if (Gdx.input.isKeyPressed(Input.Keys.D) && !(position == 2) && isUpB){
             position++;
-            playerR.x += 320;
+            playerR.x += (200 - 16);
             isUpB = false;
         }else {
             isUpB = true;
@@ -137,7 +137,7 @@ public class Chase implements Screen {
             camera.unproject(touchPos);
             if (touchPos.x < 200 && !(position == 0) && isUpA) {
                 position--;
-                playerR.x -= 320;
+                playerR.x -= (200 - 16);
                 isUpA = false;
             }else {
                 isUpA = true;
@@ -145,7 +145,7 @@ public class Chase implements Screen {
 
             if (touchPos.x > 1080 && !(position == 2) && isUpB) {
                 position++;
-                playerR.x += 320;
+                playerR.x += (200 - 16);
                 isUpB = false;
             }else {
                 isUpB = true;

@@ -106,7 +106,7 @@ public class Ingredients implements Screen {
         gameC.batch.setProjectionMatrix(camera.combined);
         gameC.batch.begin();
         gameC.batch.draw(backgroundTexture, 0, 0);
-        gameC.font.draw(gameC.batch, "Cone: " + dropsGathered, 600, 720);
+        gameC.font.draw(gameC.batch, "Cone: " + dropsGathered, 600, 670);
         gameC.batch.draw(gg,ggk.x,ggk.y);
 
         for(TreeDrop elemdrop: treesDrops) {

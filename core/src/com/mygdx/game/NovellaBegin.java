@@ -33,13 +33,24 @@ public class NovellaBegin implements Screen {
             //
             "– Уже проснулся ", // 7 кадр 0.3
             //
-            "*мурчание* ",// 8 кадр 0.4
+            "*мурчание* ",// 8 кадр
             //
-            "– Идём, Марси, у нас сегодня на ужин курочка, как ты любишь. ",// 9 кадр 0.5
+            "– Идём, Марси, у нас сегодня на ужин курочка, как ты любишь. ",// 9 кадр 0.4
             //
-            " ", // 10 кадр 0.6
-            " ", // 11 кадр 0.7
-
+            "«Я далеко не самый успешный человек в своей жизни.»  ", // 10 кадр 0.1
+            "«Живя одной в этом доме, каждый день ходила на работу.» ", // 11
+            "«И хоть людей вокруг много, всё равно чувствую себя одинокой.» ",
+            "«Но совсем недавно мне почудилось найти котёнка у себя под дверью.» ",
+            "«Он потирался о мою ногу, просил еды.» ",
+            "«И я пустила его домой.» ",
+            "«С тех пор мы живём вместе.» ",
+            "«За время я привязалась, очень сильно.» ", // 17 Кадр 0.5
+            "«Это был единственный друг, который выручал меня в одинокие вечера.» ",
+            "... ", // 18 кадр 0.6
+            "«Завтра нужно будет заняться делами.» ", // 19 кадр 0.1
+            "– Спокойной ночи, Марси. ",
+            "– Мурк! ",
+            "*спокойное мурчание*  "
             };
     int page = 0;
     int startY = 100;
@@ -47,7 +58,7 @@ public class NovellaBegin implements Screen {
     boolean paused = false;
     StringBuffer strBuffer;
 
-    float letterSpawnTime = .1f;
+    float letterSpawnTime = .05f;
     float timer = 0;
     int stringIndex = 0;
     String drawText = "";
@@ -120,8 +131,17 @@ public class NovellaBegin implements Screen {
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.4.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
-            case 11:
+            case 10:
+            case 19:
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.1.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 17:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.5.png"));
+                back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 18:
+                backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.6.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
         }

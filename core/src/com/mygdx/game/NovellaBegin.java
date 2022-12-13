@@ -295,11 +295,17 @@ public class NovellaBegin implements Screen {
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 Глава/2.1.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
+            case 63:
+            case 64:
+                forest.play();
+                break;
             case 65:
+                forest.play();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 Глава/2.2.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 66:
+                forest.play();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 Глава/2.3.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;

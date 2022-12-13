@@ -18,6 +18,13 @@ public class NovellaBegin implements Screen {
     final Game game;
     BitmapFont font;
     Music clickSound;
+    Music family;
+    Music meow;
+    Music lovelymeow;
+    Music morning;
+    Music sadness;
+    Music forest;
+    Music waterjump;
     boolean end = false;
     TextureRegion back;
     Texture backTex;
@@ -45,7 +52,7 @@ public class NovellaBegin implements Screen {
             "... ", // 19 кадр 0.6
             "«Завтра нужно будет заняться делами.» ", // 20 кадр 0.1
             "– Спокойной ночи, Марси. ",
-            "– Мурк! ",
+            "– Мурк! ",//22
             "*спокойное мурчание*  ", // 23
             ////////// Глава 1
            // Кадр 1.1: окно, утро.
@@ -132,6 +139,14 @@ public class NovellaBegin implements Screen {
         OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(false,1280,720);
         clickSound = Gdx.audio.newMusic(Gdx.files.internal("music/clickSound.mp3"));
+        family = Gdx.audio.newMusic(Gdx.files.internal("music/family.mp3"));
+        meow = Gdx.audio.newMusic(Gdx.files.internal("music/meow.mp3"));
+        lovelymeow = Gdx.audio.newMusic(Gdx.files.internal("music/lovelymeow.mp3"));
+        morning = Gdx.audio.newMusic(Gdx.files.internal("music/morning.mp3"));
+        sadness = Gdx.audio.newMusic(Gdx.files.internal("music/sadness.mp3"));
+        forest = Gdx.audio.newMusic(Gdx.files.internal("music/forest.mp3"));
+        waterjump = Gdx.audio.newMusic(Gdx.files.internal("music/waterjump.mp3"));
+        family.play();
         backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.1.png"));
         back = new TextureRegion(backTex, 0 , 0,1280,720);
 
@@ -181,19 +196,28 @@ public class NovellaBegin implements Screen {
         }
         switch (page){
             case 4:
+                family.setVolume(0.6f);
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.2.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 6:
+                meow.play();
                 break;
             case 7:
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.3.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 8:
+                lovelymeow.play();
                 break;
             case 9:
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.4.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 10:
+                family.setVolume(1);
             case 20:
+                family.setVolume(0.6f);
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.1.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
@@ -205,7 +229,15 @@ public class NovellaBegin implements Screen {
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.6.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
+            case 22:
+                meow.play();
+                break;
+            case 23:
+                lovelymeow.play();
+                family.pause();
+                break;
             case 24:
+                morning.play();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.1.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
@@ -218,9 +250,14 @@ public class NovellaBegin implements Screen {
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 34:
+                morning.setVolume(0.4f);
             case 60:
+                forest.pause();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.0.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 61:
+                waterjump.play();
                 break;
             case 37:
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.5.png"));
@@ -231,6 +268,8 @@ public class NovellaBegin implements Screen {
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 47:
+                morning.pause();
+                sadness.play();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.7.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
@@ -239,6 +278,8 @@ public class NovellaBegin implements Screen {
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 52:
+                sadness.pause();
+                forest.play();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.9.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;

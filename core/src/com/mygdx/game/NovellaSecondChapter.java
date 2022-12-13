@@ -18,6 +18,8 @@ public class NovellaSecondChapter implements Screen {
     final Game game;
     BitmapFont font;
     Music filin;
+    Music storyforest;
+    Music verysad;
     boolean end = false;
     TextureRegion back;
     Texture backTex;
@@ -105,7 +107,9 @@ public class NovellaSecondChapter implements Screen {
         this.game = game;
         OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(false,1280,720);
-        filin = Gdx.audio.newMusic(Gdx.files.internal("music/clickSound.mp3"));
+        filin = Gdx.audio.newMusic(Gdx.files.internal("music/filin.mp3"));
+        storyforest = Gdx.audio.newMusic(Gdx.files.internal("music/storyforest.mp3"));
+        verysad = Gdx.audio.newMusic(Gdx.files.internal("music/verysad.mp3"));
         backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.1.png"));
         back = new TextureRegion(backTex, 0 , 0,1280,720);
 
@@ -155,13 +159,18 @@ public class NovellaSecondChapter implements Screen {
         }
         switch (page){
             case 0:
+                filin.play();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 глава/2.4.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 10:
+                filin.pause();
+                storyforest.play();
             case 12:
             case 24:
             case 43:
+                verysad.pause();
+                storyforest.play();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 глава/2.5.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
@@ -171,6 +180,8 @@ public class NovellaSecondChapter implements Screen {
                 break;
             case 23:
             case 39:
+                storyforest.pause();
+                verysad.play();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 глава/1.0.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;

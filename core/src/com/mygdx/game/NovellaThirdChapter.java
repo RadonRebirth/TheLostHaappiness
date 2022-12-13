@@ -17,7 +17,10 @@ public class NovellaThirdChapter implements Screen {
     private SpriteBatch batch;
     final Game game;
     BitmapFont font;
-    Music filin;
+    Music storyforest;
+    Music jungle;
+    Music upal;
+
     boolean end = false;
     TextureRegion back;
     Texture backTex;
@@ -159,7 +162,9 @@ public class NovellaThirdChapter implements Screen {
         this.game = game;
         OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(false,1280,720);
-        filin = Gdx.audio.newMusic(Gdx.files.internal("music/claviature.mp3"));
+        storyforest = Gdx.audio.newMusic(Gdx.files.internal("music/storyforest.mp3"));
+        jungle = Gdx.audio.newMusic(Gdx.files.internal("music/jungle.mp3"));
+        upal = Gdx.audio.newMusic(Gdx.files.internal("music/upal.mp3"));
         backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.1.png"));
         back = new TextureRegion(backTex, 0 , 0,1280,720);
 
@@ -187,13 +192,11 @@ public class NovellaThirdChapter implements Screen {
             }
             if (!end){
                 font.draw(batch, drawText, startX, startY);
-                //clickSound.play();
             }else {
                 font.draw(batch,strBuffer,startX,startY);
             }
 
             if (end) {
-                filin.pause();
                 if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) | Gdx.input.isTouched()) {
                     resume();
                     page++;
@@ -208,6 +211,7 @@ public class NovellaThirdChapter implements Screen {
             batch.flush();
         }
         switch (page){
+
             case 0:
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 глава/2.5.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
@@ -217,10 +221,13 @@ public class NovellaThirdChapter implements Screen {
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 9:
+                jungle.setVolume(0.6f);
+                upal.play();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 глава/2.6.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 12:
+                jungle.setVolume(1);
             case 17:
             case 21:
             case 37:
@@ -231,6 +238,8 @@ public class NovellaThirdChapter implements Screen {
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 2:
+                storyforest.pause();
+                jungle.play();
             case 15:
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 глава/1.0.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);

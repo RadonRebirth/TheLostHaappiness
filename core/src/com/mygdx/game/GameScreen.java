@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -38,6 +39,7 @@ class GameScreen implements Screen {
 	Texture frame4;
 	Texture frame5;
 	Texture frame6;
+	Music storyforest;
 
 	public GameScreen(final Game game){
 	this.game = game;
@@ -57,15 +59,19 @@ class GameScreen implements Screen {
 		player = new Player(new Sprite(new Texture("img/player.png")), (TiledMapTileLayer) map.getLayers().get("collisionLayer"));
 		player.setPosition(310, 600);
 		Gdx.input.setInputProcessor(player);
+		storyforest = Gdx.audio.newMusic(Gdx.files.internal("music/storyforest.mp3"));
+		storyforest.isLooping();
 		camera.update();
 	}
 	public void render(float delta) {
+		storyforest.play();
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		if(playerX< 3600 && playerX > 3400 ) {
 			if (playerY< 80 && playerY > 60) {
 				game.setScreen(new NovellaSecondChapter(game));
+				storyforest.pause();
 			}
 		}
 		framesUp = new Texture[]{

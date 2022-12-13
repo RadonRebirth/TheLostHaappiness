@@ -17,7 +17,11 @@ public class NovellaFinal implements Screen {
     private SpriteBatch batch;
     final Game game;
     BitmapFont font;
-    Music filin;
+    Music jungle;
+    Music wind;
+    Music rain;
+    Music meowrain;
+    Music endd;
     boolean end = false;
     TextureRegion back;
     Texture backTex;
@@ -114,7 +118,11 @@ public class NovellaFinal implements Screen {
         this.game = game;
         OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(false,1280,720);
-        filin = Gdx.audio.newMusic(Gdx.files.internal("music/clickSound.mp3"));
+        jungle = Gdx.audio.newMusic(Gdx.files.internal("music/jungle.mp3"));
+        wind= Gdx.audio.newMusic(Gdx.files.internal("music/wind.mp3"));
+        rain = Gdx.audio.newMusic(Gdx.files.internal("music/rain.mp3"));
+        meowrain = Gdx.audio.newMusic(Gdx.files.internal("music/meowrain.mp3"));
+        endd = Gdx.audio.newMusic(Gdx.files.internal("music/end.mp3"));
         backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.1.png"));
         back = new TextureRegion(backTex, 0 , 0,1280,720);
 
@@ -142,13 +150,11 @@ public class NovellaFinal implements Screen {
             }
             if (!end){
                 font.draw(batch, drawText, startX, startY);
-                //clickSound.play();
             }else {
                 font.draw(batch,strBuffer,startX,startY);
             }
 
             if (end) {
-                filin.pause();
                 if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) | Gdx.input.isTouched()) {
                     resume();
                     page++;
@@ -172,7 +178,10 @@ public class NovellaFinal implements Screen {
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 9:
+                jungle.pause();
+                wind.play();
             case 30:
+                rain.setVolume(1);
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/3 глава/3.17.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
@@ -185,10 +194,15 @@ public class NovellaFinal implements Screen {
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 10:
+                wind.pause();
+                rain.play();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/3 глава/3.18.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 13:
+                rain.setVolume(0.6f);
+                meowrain.play();
+                meowrain.setVolume(0.8f);
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/3 глава/3.19.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
@@ -197,10 +211,12 @@ public class NovellaFinal implements Screen {
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 18:
+                meowrain.pause();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/3 глава/3.21.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 23:
+                rain.setVolume(0.3f);
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.6.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
@@ -229,6 +245,8 @@ public class NovellaFinal implements Screen {
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 31:
+                rain.pause();
+                endd.play();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 глава/1.0.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;

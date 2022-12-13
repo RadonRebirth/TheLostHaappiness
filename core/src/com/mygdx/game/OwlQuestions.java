@@ -279,6 +279,7 @@ public class OwlQuestions implements Screen {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         game.setScreen(new NovellaThirdChapter(game));
+                        stage.clear();
                     }
                 });
                 break;

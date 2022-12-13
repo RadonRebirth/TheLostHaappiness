@@ -42,9 +42,9 @@ public class NovellaThirdChapter implements Screen {
             //Кадр 3.3: чёрный экран с вопросами.
             //jungle – 60%
             //upal.mp3 – один раз воспроизвести, как звук.
-            "[ЗНАК ВОПРОСА] — Эй! ", // 9
-            "[ЗНАК ВОПРОСА] — Смотри куда идёшь! ",
-            "[ЗНАК ВОПРОСА] — Не видишь ничего. ",
+            "[??] — Эй! ", // 9
+            "[??] — Смотри куда идёшь! ",
+            "[??] — Не видишь ничего. ",
             //jungle – 100%
             //Кадр 3.4: стоит ёжик, смотрит в камеру.
             "[ЁЖ] — Я целый день таскал, таскал, носил, носил. ", // 12
@@ -52,7 +52,7 @@ public class NovellaThirdChapter implements Screen {
             "— Говорящий ёж? ",
             //Кадр: чёрный экран.
             "— О... Боже... Я до сих пор сплю? ", // 15
-            "[ЁЖ] — В точности верно, раз вы умудрились меня сбить. ",
+            "[ЁЖ] — В точности верно, раз вы умудрились меня сбить. ",//16
             //Кадр 3.4: (повтор)
             "— Ну... Извините, пожалуйста? ", // 17
             "[ЁЖ] — Я добрый, конечно, извиню. ",
@@ -150,7 +150,7 @@ public class NovellaThirdChapter implements Screen {
     boolean paused = false;
     StringBuffer strBuffer;
 
-    float letterSpawnTime = .05f;
+    float letterSpawnTime = .02f;
     float timer = 0;
     int stringIndex = 0;
     String drawText = "";
@@ -173,6 +173,8 @@ public class NovellaThirdChapter implements Screen {
     public void render(float deltaTime) {
         font = game.getFont();
         font.setColor(Color.WHITE);
+        jungle.setLooping(true);
+        storyforest.setLooping(true);
         Matrix4 normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch = new SpriteBatch();
         batch.setProjectionMatrix(normalProjection);
@@ -204,6 +206,8 @@ public class NovellaThirdChapter implements Screen {
                     drawText = "";
                     end = false;
                     if (page == StringArray.length){
+                        jungle.pause();
+                        jungle.dispose();
                         game.setScreen(new Ingredients(game));
                     }
                 }
@@ -213,6 +217,7 @@ public class NovellaThirdChapter implements Screen {
         switch (page){
 
             case 0:
+                storyforest.play();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 глава/2.5.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
@@ -228,7 +233,7 @@ public class NovellaThirdChapter implements Screen {
                 break;
             case 12:
                 jungle.setVolume(1);
-            case 17:
+            case 16:
             case 21:
             case 37:
             case 42:
@@ -276,6 +281,10 @@ public class NovellaThirdChapter implements Screen {
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/3 глава/3.11.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
+            case 86:
+                jungle.pause();
+                break;
+
         }
         batch.end();
 
@@ -295,6 +304,7 @@ public class NovellaThirdChapter implements Screen {
 
     @Override
     public void dispose() {
+        jungle.pause();
         batch.dispose();
         font.dispose();
     }

@@ -96,9 +96,9 @@ public class NovellaFinal implements Screen {
             "Главный художник, сценарист, кодер – Лобкова Елизавета. <3 ",
             "Художник, кодер – Михотин Иван. ",
             "Кодер – Никита Байкин. ",
-            "«Всегда, и только всегда, берегите абсолютно все вещи в вашей жизни.» ",
-            "– The lost Happiness. ",
-"Конец. " // 4
+            "«Всегда, и только всегда, берегите абсолютно все вещи в вашей жизни.» ", // 42
+            "– The lost Happiness. ", // 43
+"Конец???... " // 44
 };
     int page = 0;
     int startY = 100;
@@ -131,6 +131,7 @@ public class NovellaFinal implements Screen {
     public void render(float deltaTime) {
         font = game.getFont();
         font.setColor(Color.WHITE);
+        rain.setLooping(true);
         Matrix4 normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch = new SpriteBatch();
         batch.setProjectionMatrix(normalProjection);
@@ -170,6 +171,7 @@ public class NovellaFinal implements Screen {
         }
         switch (page){
             case 0:
+                jungle.play();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/3 глава/3.13.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
@@ -179,6 +181,7 @@ public class NovellaFinal implements Screen {
                 break;
             case 9:
                 jungle.pause();
+                jungle.dispose();
                 wind.play();
             case 30:
                 rain.setVolume(1);
@@ -246,13 +249,24 @@ public class NovellaFinal implements Screen {
                 break;
             case 31:
                 rain.pause();
-                endd.play();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 глава/1.0.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 32:
+                endd.play();
                 startY = Gdx.graphics.getWidth()/3;
                 startX = 150;
+                letterSpawnTime = 0.07f;
+                break;
+            case 42:
+                font.setColor(Color.ORANGE);
+                break;
+            case 43:
+                font.setColor(Color.PURPLE);
+                break;
+            case 44:
+                font.setColor(Color.RED);
+                letterSpawnTime = 0.2f;
                 break;
         }
         batch.end();

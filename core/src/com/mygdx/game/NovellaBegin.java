@@ -111,13 +111,13 @@ public class NovellaBegin implements Screen {
            // Кадр 2.1: сумеречный лес.
             "– Какой ужас. ", //62
             "«Одежда промокла.» ",
-            "ГГ – Что сегодня за день такой?! ",
+            "– Что сегодня за день такой?! ",
     //Кадр 2.2:
-            "– Что это за место? ", // 63
+            "– Что это за место? ", // 65
     //Кадр 2.3:
-            "– Где я вообще?! ", // 64
+            "– Где я вообще?! ", // 66
             "«Я ничего не понимаю.» ",
-            "– Помогите! " // 66
+            "– Помогите! " // 68
 
 };
     int page = 0;
@@ -202,6 +202,7 @@ public class NovellaBegin implements Screen {
                 break;
             case 6:
                 meow.play();
+                meow.setLooping(false);
                 break;
             case 7:
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.3.png"));
@@ -231,6 +232,7 @@ public class NovellaBegin implements Screen {
                 break;
             case 22:
                 meow.play();
+                meow.setLooping(false);
                 break;
             case 23:
                 lovelymeow.play();
@@ -280,6 +282,7 @@ public class NovellaBegin implements Screen {
             case 52:
                 sadness.pause();
                 forest.play();
+                forest.isLooping();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.9.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
@@ -288,16 +291,20 @@ public class NovellaBegin implements Screen {
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 62:
+                forest.play();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 Глава/2.1.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
-            case 63:
+            case 65:
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 Глава/2.2.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
-            case 64:
+            case 66:
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 Глава/2.3.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 68:
+                forest.pause();
                 break;
         }
         batch.end();

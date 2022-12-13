@@ -5,6 +5,7 @@ import static com.badlogic.gdx.math.MathUtils.random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -34,6 +35,7 @@ public class Ingredients implements Screen {
     SpriteBatch batch;
     Rectangle ggk;
     Array<TreeDrop> treesDrops;
+    Music jungle;
     long lastDropTime;
     int dropsGathered;
     int speed = 200;
@@ -41,7 +43,7 @@ public class Ingredients implements Screen {
 
     public Ingredients(final Game game) {
         this.game = game;
-
+        Gdx.graphics.setForegroundFPS(144);
         ConeImage = new Texture(Gdx.files.internal("img/cone.png"));
         gg = new Texture(Gdx.files.internal("img/gg anim1.png"));
         AppleImage = new Texture(Gdx.files.internal("img/Apple.png"));
@@ -50,6 +52,7 @@ public class Ingredients implements Screen {
         CinnamonImage = new Texture(Gdx.files.internal("img/Cinnamon.png"));
         backgroundTexture = new TextureRegion(new Texture("background.png"), 0, 0, 1280, 720);
 
+        jungle = Gdx.audio.newMusic(Gdx.files.internal("music/jungle.mp3"));
 
         DropArray = new Texture[] {ConeImage, AppleImage, PepperImage,BerriesImage,CinnamonImage};
 
@@ -100,6 +103,8 @@ public class Ingredients implements Screen {
         }
     }
     public void render(float delta){
+        jungle.play();
+        jungle.setLooping(true);
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
@@ -153,7 +158,10 @@ public class Ingredients implements Screen {
                 speed = 500;
                 break;
             case 20:
+                Gdx.graphics.setForegroundFPS(12);
+                jungle.pause();
                 game.setScreen(new NovellaFinal(game));
+                dispose();
                 break;
         }
     }
@@ -161,6 +169,7 @@ public class Ingredients implements Screen {
     public void dispose() {
         AppleImage.dispose();
         gg.dispose();
+        jungle.dispose();
         batch.dispose();
     }
 

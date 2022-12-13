@@ -74,6 +74,7 @@ public class OwlIncorrectAnswer implements Screen {
                     end = false;
                     if (page == StringArray.length){
                         game.setScreen(new OwlQuestions(game));
+                        dispose();
                     }
             }
             batch.flush();
@@ -102,6 +103,5 @@ public class OwlIncorrectAnswer implements Screen {
     @Override
     public void dispose() {
         batch.dispose();
-        font.dispose();
     }
 }

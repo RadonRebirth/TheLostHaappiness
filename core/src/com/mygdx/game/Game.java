@@ -23,7 +23,7 @@ public class Game extends com.badlogic.gdx.Game {
         param.size = 20;
         param.borderColor = Color.BLACK;
         param.borderWidth = 2;
-        String FONT_CHARACTERS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*–-[];:.,/«»?!&";
+        String FONT_CHARACTERS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*–-[];:.,/<>«»?!&";
         param.characters = FONT_CHARACTERS;
         font = generator.generateFont(param);
         font.setColor(Color.WHITE);

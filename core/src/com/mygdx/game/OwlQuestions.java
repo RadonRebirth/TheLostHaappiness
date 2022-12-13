@@ -35,7 +35,7 @@ public class OwlQuestions implements Screen {
     private final ImageButton button12;
     final Game game;
     BitmapFont font;
-    Music clickSound;
+    Music storyforest;
     boolean end = false;
     String[] StringArray = {
             "Какого цвета был котёнок? ",
@@ -145,6 +145,7 @@ public class OwlQuestions implements Screen {
         stage.addActor(button3);
         Gdx.input.setInputProcessor(stage);
         backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 глава/2.8.png"));
+        storyforest = Gdx.audio.newMusic(Gdx.files.internal("music/storyforest.mp3"));
         back = new TextureRegion(backTex, 0 , 0,1280,720);
 
     }
@@ -194,6 +195,7 @@ public class OwlQuestions implements Screen {
         }
         switch (page){
             case 0:
+                storyforest.play();
                 button.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
@@ -260,6 +262,7 @@ public class OwlQuestions implements Screen {
                 });
                 break;
             case 3:
+                storyforest.pause();
                 stage.addActor(button10);
                 stage.addActor(button11);
                 stage.addActor(button12);
@@ -279,7 +282,9 @@ public class OwlQuestions implements Screen {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         game.setScreen(new NovellaThirdChapter(game));
+                        storyforest.dispose();
                         stage.clear();
+                        dispose();
                     }
                 });
                 break;
@@ -302,9 +307,8 @@ public class OwlQuestions implements Screen {
 
     @Override
     public void dispose() {
-        clickSound.dispose();
+        storyforest.dispose();
         batch.dispose();
-        font.dispose();
         stage.dispose();
     }
 }

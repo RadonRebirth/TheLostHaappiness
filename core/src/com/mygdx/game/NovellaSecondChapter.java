@@ -27,15 +27,15 @@ public class NovellaSecondChapter implements Screen {
              // filin.mp3 – 100%
             //Кадр 2.4: фокус на дерево в сумеречном лесу.
             "«Кто это там?» ",// 0
-            "[??] – В глуши, во мраке заточенья, тянулись тихо дни мои. ",
+            "[??] – В глуши, во мраке заточенья, тянулись тихо дни мои. ",//1
             "– Кто это там разговаривает? ",
-            "[??] – Без божества, без вдохновенья, без слез, без жизни, без любви. ",
+            "[??] – Без божества, без вдохновенья, без слез, без жизни, без любви. ",//3
             "«Стихи читает какие-то.» ",
-            "[??] – Душе настало пробужденье: и вот опять явилась ты. ",
+            "[??] – Душе настало пробужденье: и вот опять явилась ты. ",//5
             "– Ау? ",
-            "[??] – Как мимолетное виденье, как гений чистой... ",
+            "[??] – Как мимолетное виденье, как гений чистой... ",//7
             "– Извините пожалуйста! ",
-            "[??] – УХ ТЫ, БАТЮШКИ! ",
+            "[??] – УХ ТЫ, БАТЮШКИ! ",//9
             //storyforest.mp3 – 100%
             //Кадр 2.5: сова на дереве.
             "[ФИЛИН] – Это что за вечерний гость? Вы застали меня врасплох! ", // 10
@@ -118,6 +118,7 @@ public class NovellaSecondChapter implements Screen {
     public void render(float deltaTime) {
         font = game.getFont();
         font.setColor(Color.WHITE);
+        storyforest.setLooping(true);
         Matrix4 normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch = new SpriteBatch();
         batch.setProjectionMatrix(normalProjection);
@@ -162,6 +163,17 @@ public class NovellaSecondChapter implements Screen {
                 filin.play();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 глава/2.4.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
+                break;
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+                filin.play();
                 break;
             case 10:
                 filin.pause();

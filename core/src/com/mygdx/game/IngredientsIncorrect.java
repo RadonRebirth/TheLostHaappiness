@@ -88,8 +88,6 @@ public class IngredientsIncorrect implements Screen {
             }
             batch.flush();
         }
-        switch (page){
-        }
         batch.end();
 
     }

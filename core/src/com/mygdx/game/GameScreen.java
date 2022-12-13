@@ -43,10 +43,11 @@ class GameScreen implements Screen {
 
 	public GameScreen(final Game game){
 	this.game = game;
+
 	}
 	@Override
 	public void show() {
-		Gdx.graphics.setForegroundFPS(144);
+
 		touchPos = new Vector3();
 
 		TmxMapLoader loader = new TmxMapLoader();
@@ -65,6 +66,7 @@ class GameScreen implements Screen {
 	}
 	public void render(float delta) {
 		storyforest.play();
+		Gdx.graphics.setForegroundFPS(144);
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -72,6 +74,8 @@ class GameScreen implements Screen {
 			if (playerY< 80 && playerY > 60) {
 				game.setScreen(new NovellaSecondChapter(game));
 				storyforest.pause();
+				Gdx.graphics.setForegroundFPS(12);
+				dispose();
 			}
 		}
 		framesUp = new Texture[]{
@@ -206,7 +210,6 @@ class GameScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		renderer.dispose();
 		map.dispose();
 	}
 

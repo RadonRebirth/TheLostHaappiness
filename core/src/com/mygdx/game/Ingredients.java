@@ -5,6 +5,8 @@ import static com.badlogic.gdx.math.MathUtils.random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -30,7 +32,8 @@ public class Ingredients implements Screen {
 
     TextureRegion backgroundTexture;
 
-
+    Sound pickupSound;
+    Music gameMusic;
 
     OrthographicCamera camera;
     SpriteBatch batch;
@@ -54,6 +57,11 @@ public class Ingredients implements Screen {
 
 
         DropArray = new Texture[] {ConeImage, AppleImage, PepperImage,BerriesImage,CinnamonImage};
+
+        pickupSound = Gdx.audio.newSound(Gdx.files.internal("drops.wav"));
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("bit.mp3"));
+        gameMusic.setLooping(true);
+
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,1280,720);
@@ -106,7 +114,7 @@ public class Ingredients implements Screen {
         gameC.batch.setProjectionMatrix(camera.combined);
         gameC.batch.begin();
         gameC.batch.draw(backgroundTexture, 0, 0);
-        gameC.font.draw(gameC.batch, "Cone: " + dropsGathered, 600, 720);
+        gameC.font.draw(gameC.batch, "Cone: " + dropsGathered, 600, 670);
         gameC.batch.draw(gg,ggk.x,ggk.y);
 
         for(TreeDrop elemdrop: treesDrops) {
@@ -136,10 +144,12 @@ public class Ingredients implements Screen {
             if(animDrop.rectangle.overlaps(ggk)){
                 if(animDrop.type == 0) {
                     dropsGathered++;
+                    pickupSound.play();
                     iter.remove();
                 }
                 if(animDrop.type !=0){
                     // Проиграл
+                    pickupSound.play();
                     iter.remove();
                 }
             }
@@ -164,6 +174,8 @@ public class Ingredients implements Screen {
         AppleImage.dispose();
         gg.dispose();
         batch.dispose();
+        pickupSound.dispose();
+        gameMusic.dispose();
     }
 
     @Override

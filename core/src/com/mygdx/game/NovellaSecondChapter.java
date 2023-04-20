@@ -156,6 +156,18 @@ public class NovellaSecondChapter implements Screen {
                     }
                 }
             }
+            if(!end) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+                    resume();
+                    page++;
+                    stringIndex = 0;
+                    drawText = "";
+                    end = false;
+                    if (page == StringArray.length) {
+                        game.setScreen(new OwlQuestions(game));
+                    }
+                }
+            }
             batch.flush();
         }
         switch (page){

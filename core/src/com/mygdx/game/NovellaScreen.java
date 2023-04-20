@@ -20,15 +20,15 @@ public class NovellaScreen implements Screen {
     Music clickSound;
     boolean end = false;
     String[] StringArray = {
-            "Вы когда-нибудь задумывались о важных вещах в вашей жизни? ",
-            "Теряли что-нибудь? ",
-            "Что вы делали, если не находили какую-то деталь или предмет? ",
-            "Думаю, даже самые маленькие вещи имеют большой смысл в жизни. ",
-            "Но некоторые люди от плохой судьбы теряют друзей, семью и близких... ",
-            "Этому и наша поучительная история. ",
+            "Вы когда-нибудь задумывались о важных вещах в вашей жизни?  ",
+            "Теряли что-нибудь?  ",
+            "Что вы делали, если не находили какую-то деталь или предмет?  ",
+            "Думаю, даже самые маленькие вещи имеют большой смысл в жизни.  ",
+            "Но некоторые люди от плохой судьбы теряют друзей, семью и близких...  ",
+            "Этому и наша поучительная история.  ",
             "Всегда, и только всегда, берегите абсолютно всё в вашей жизни. ",
-            "Для вас это небольшая страница в жизни, ",
-            "А для кого-то – целая жизнь. "
+            "Для вас это небольшая страница в жизни,  ",
+            "А для кого-то – целая жизнь.  "
             };
     int page = 0;
     int startY = Gdx.graphics.getWidth()-880;
@@ -87,6 +87,20 @@ public class NovellaScreen implements Screen {
                     end = false;
                     if (page == StringArray.length){
                         game.setScreen(new NovellaBegin(game));
+                    }
+                }
+            }
+            if(!end) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+                    resume();
+                    page++;
+                    stringIndex = 0;
+                    drawText = "";
+                    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                    end = false;
+                    if (page == StringArray.length) {
+                        game.setScreen(new NovellaBegin(game));
+                        clickSound.dispose();
                     }
                 }
             }

@@ -212,6 +212,18 @@ public class NovellaThirdChapter implements Screen {
                     }
                 }
             }
+            if(!end) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+                    resume();
+                    page++;
+                    stringIndex = 0;
+                    drawText = "";
+                    end = false;
+                    if (page == StringArray.length) {
+                        game.setScreen(new Ingredients(game));
+                    }
+                }
+            }
             batch.flush();
         }
         switch (page){

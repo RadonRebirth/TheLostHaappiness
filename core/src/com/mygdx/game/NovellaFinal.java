@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -163,6 +164,18 @@ public class NovellaFinal implements Screen {
                     drawText = "";
                     end = false;
                     if (page == StringArray.length){
+                        Gdx.app.exit();
+                    }
+                }
+            }
+            if(!end) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+                    resume();
+                    page++;
+                    stringIndex = 0;
+                    drawText = "";
+                    end = false;
+                    if (page == StringArray.length) {
                         Gdx.app.exit();
                     }
                 }

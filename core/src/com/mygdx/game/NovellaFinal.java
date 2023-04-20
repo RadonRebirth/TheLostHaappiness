@@ -293,7 +293,6 @@ public class NovellaFinal implements Screen {
                 break;
         }
         batch.end();
-
     }
     @Override
     public void resize(int width, int height) {

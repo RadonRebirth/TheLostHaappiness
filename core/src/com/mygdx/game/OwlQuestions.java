@@ -262,7 +262,6 @@ public class OwlQuestions implements Screen {
                 });
                 break;
             case 3:
-                storyforest.pause();
                 stage.addActor(button10);
                 stage.addActor(button11);
                 stage.addActor(button12);
@@ -282,7 +281,6 @@ public class OwlQuestions implements Screen {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         game.setScreen(new NovellaThirdChapter(game));
-                        storyforest.dispose();
                         stage.clear();
                         dispose();
                     }

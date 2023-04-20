@@ -105,6 +105,7 @@ public class Ingredients implements Screen {
     public void render(float delta){
         jungle.play();
         jungle.setLooping(true);
+        jungle.setVolume(0.3f);
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
@@ -159,7 +160,7 @@ public class Ingredients implements Screen {
                 break;
             case 20:
                 Gdx.graphics.setForegroundFPS(12);
-                jungle.pause();
+                jungle.dispose();
                 game.setScreen(new NovellaFinal(game));
                 dispose();
                 break;

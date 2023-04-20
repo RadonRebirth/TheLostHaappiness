@@ -152,6 +152,7 @@ public class NovellaSecondChapter implements Screen {
                     drawText = "";
                     end = false;
                     if (page == StringArray.length){
+                        storyforest.dispose();
                         game.setScreen(new OwlQuestions(game));
                     }
                 }
@@ -164,6 +165,7 @@ public class NovellaSecondChapter implements Screen {
                     drawText = "";
                     end = false;
                     if (page == StringArray.length) {
+                        storyforest.dispose();
                         game.setScreen(new OwlQuestions(game));
                     }
                 }

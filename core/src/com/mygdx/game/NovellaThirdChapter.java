@@ -17,7 +17,7 @@ public class NovellaThirdChapter implements Screen {
     private SpriteBatch batch;
     final Game game;
     BitmapFont font;
-    Music storyforest;
+    //Music storyforest;
     Music jungle;
     Music upal;
 
@@ -162,7 +162,7 @@ public class NovellaThirdChapter implements Screen {
         this.game = game;
         OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(false,1280,720);
-        storyforest = Gdx.audio.newMusic(Gdx.files.internal("music/storyforest.mp3"));
+        //storyforest = Gdx.audio.newMusic(Gdx.files.internal("music/storyforest.mp3"));
         jungle = Gdx.audio.newMusic(Gdx.files.internal("music/jungle.mp3"));
         upal = Gdx.audio.newMusic(Gdx.files.internal("music/upal.mp3"));
         backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.1.png"));
@@ -174,7 +174,7 @@ public class NovellaThirdChapter implements Screen {
         font = game.getFont();
         font.setColor(Color.WHITE);
         jungle.setLooping(true);
-        storyforest.setLooping(true);
+       // storyforest.setLooping(true);
         Matrix4 normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch = new SpriteBatch();
         batch.setProjectionMatrix(normalProjection);
@@ -212,12 +212,24 @@ public class NovellaThirdChapter implements Screen {
                     }
                 }
             }
+            if(!end) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+                    resume();
+                    page++;
+                    stringIndex = 0;
+                    drawText = "";
+                    end = false;
+                    if (page == StringArray.length) {
+                        game.setScreen(new Ingredients(game));
+                    }
+                }
+            }
             batch.flush();
         }
         switch (page){
 
             case 0:
-                storyforest.play();
+               // storyforest.play();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 глава/2.5.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
@@ -226,13 +238,12 @@ public class NovellaThirdChapter implements Screen {
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 9:
-                jungle.setVolume(0.6f);
+              jungle.setVolume(0.6f);
                 upal.play();
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/2 глава/2.6.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 12:
-                jungle.setVolume(1);
             case 16:
             case 21:
             case 37:
@@ -243,8 +254,9 @@ public class NovellaThirdChapter implements Screen {
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 2:
-                storyforest.pause();
-                jungle.play();
+                //storyforest.pause();
+               jungle.play();
+                jungle.setVolume(0.5f);
             case 15:
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 глава/1.0.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
@@ -282,7 +294,8 @@ public class NovellaThirdChapter implements Screen {
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 86:
-                jungle.pause();
+               jungle.pause();
+                jungle.dispose();
                 break;
 
         }
@@ -304,7 +317,7 @@ public class NovellaThirdChapter implements Screen {
 
     @Override
     public void dispose() {
-        jungle.pause();
+        jungle.dispose();
         batch.dispose();
         font.dispose();
     }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -116,6 +117,8 @@ public class NovellaFinal implements Screen {
     }
     public NovellaFinal(final Game game) {
         this.game = game;
+        font = game.getFont();
+        font.setColor(Color.WHITE);
         OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(false,1280,720);
         jungle = Gdx.audio.newMusic(Gdx.files.internal("music/jungle.mp3"));
@@ -129,9 +132,8 @@ public class NovellaFinal implements Screen {
     }
     @Override
     public void render(float deltaTime) {
-        font = game.getFont();
-        font.setColor(Color.WHITE);
         rain.setLooping(true);
+        jungle.setVolume(0.3f);
         Matrix4 normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch = new SpriteBatch();
         batch.setProjectionMatrix(normalProjection);
@@ -163,7 +165,23 @@ public class NovellaFinal implements Screen {
                     drawText = "";
                     end = false;
                     if (page == StringArray.length){
-                        Gdx.app.exit();
+                        font.setColor(Color.WHITE);
+                        game.setScreen(new Menu(game));
+                        endd.dispose();
+                    }
+                }
+            }
+            if(!end) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+                    resume();
+                    page++;
+                    stringIndex = 0;
+                    drawText = "";
+                    end = false;
+                    if (page == StringArray.length) {
+                        font.setColor(Color.WHITE);
+                        game.setScreen(new Menu(game));
+                        endd.dispose();
                     }
                 }
             }
@@ -172,6 +190,7 @@ public class NovellaFinal implements Screen {
         switch (page){
             case 0:
                 jungle.play();
+                jungle.setVolume(0.3f);
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/3 глава/3.13.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
@@ -253,6 +272,10 @@ public class NovellaFinal implements Screen {
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
             case 32:
+                jungle.dispose();
+                wind.dispose();
+                rain.dispose();
+                meowrain.dispose();
                 endd.play();
                 startY = Gdx.graphics.getWidth()/3;
                 startX = 150;
@@ -270,7 +293,6 @@ public class NovellaFinal implements Screen {
                 break;
         }
         batch.end();
-
     }
     @Override
     public void resize(int width, int height) {

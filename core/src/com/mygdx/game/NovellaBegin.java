@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -130,12 +131,14 @@ public class NovellaBegin implements Screen {
     float timer = 0;
     int stringIndex = 0;
     String drawText = "";
-
+    boolean isSoundPlayed = false;
     @Override
     public void show() {
     }
     public NovellaBegin(final Game game) {
         this.game = game;
+        font = game.getFont();
+        font.setColor(Color.WHITE);
         OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(false,1280,720);
         clickSound = Gdx.audio.newMusic(Gdx.files.internal("music/clickSound.mp3"));
@@ -153,8 +156,9 @@ public class NovellaBegin implements Screen {
     }
     @Override
     public void render(float deltaTime) {
-        font = game.getFont();
-        font.setColor(Color.WHITE);
+        meow.setLooping(false);
+        lovelymeow.setLooping(false);
+        waterjump.setLooping(false);
         Matrix4 normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch = new SpriteBatch();
         batch.setProjectionMatrix(normalProjection);
@@ -192,26 +196,59 @@ public class NovellaBegin implements Screen {
                     }
                 }
             }
+            if(!end) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+                    resume();
+                    page++;
+                    stringIndex = 0;
+                    drawText = "";
+                    end = false;
+                    if (page == StringArray.length) {
+                        game.setScreen(new GameScreen(game));
+                    }
+                }
+            }
             batch.flush();
         }
         switch (page){
+            case 6:
+                if (!isSoundPlayed) {
+                    meow.play();
+                    isSoundPlayed = true;
+                }
+                break;
+            case 8:
+                if (!isSoundPlayed) {
+                    lovelymeow.play();
+                    isSoundPlayed = true;
+                }
+                break;
+            case 22:
+                if (!isSoundPlayed) {
+                    meow.play();
+                    isSoundPlayed = true;
+                }
+                break;
+            case 61:
+                if (!isSoundPlayed) {
+                    waterjump.play();
+                    isSoundPlayed = true;
+                }
+                break;
             case 4:
                 family.setVolume(0.6f);
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.2.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
-            case 6:
-                meow.play();
-                meow.setLooping(false);
-                break;
+
             case 7:
+                isSoundPlayed = false;
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.3.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
-            case 8:
-                lovelymeow.play();
-                break;
+
             case 9:
+                isSoundPlayed = false;
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.4.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
@@ -230,11 +267,8 @@ public class NovellaBegin implements Screen {
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/0.6.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
-            case 22:
-                meow.play();
-                meow.setLooping(false);
-                break;
             case 23:
+                isSoundPlayed = false;
                 lovelymeow.play();
                 family.pause();
                 break;
@@ -258,9 +292,7 @@ public class NovellaBegin implements Screen {
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.0.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);
                 break;
-            case 61:
-                waterjump.play();
-                break;
+
             case 37:
                 backTex = new Texture(Gdx.files.internal("data/Backgrounds/1 Глава/1.5.png"));
                 back = new TextureRegion(backTex, 0 , 0,1280,720);

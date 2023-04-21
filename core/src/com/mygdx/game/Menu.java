@@ -58,6 +58,8 @@ public class Menu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 game.setScreen(new NovellaScreen(game));
+                stage.dispose();
+                stage2.dispose();
                 dispose();
             }
         });
